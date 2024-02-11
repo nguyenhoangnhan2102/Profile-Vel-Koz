@@ -1,9 +1,14 @@
 
+const connection = require('../config/dataBase');
+
 const getHomePage = (req, res) => {
-    res.send('Hello World');
+    return res.render('home.ejs');
+}
+
+const getABC = (req, res) => {
+    return res.render('sample.ejs');
 }
 
 module.exports = {
-    getHomePage,
-
+    getHomePage, getABC
 }
