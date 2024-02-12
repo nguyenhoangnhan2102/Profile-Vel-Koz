@@ -13,19 +13,22 @@ const hostname = process.env.HOST_NAME;
 //Config template engine
 configViewEngine(app);
 
+//Config request.body
+app.use(express.json()); //dành cho json
+app.use(express.urlencoded({ extended: true })); //dành cho form data
+
 //Kết nối CSDL
 connection.query(
-    'SELECT * FROM TUONG u',
+    'SELECT * FROM CHAMPION u',
     function (err, results, fields) {
         console.log(results);
         console.log(fields);
     }
-)
-
+);
 
 //Khai báo route
 app.use('/', webRoute);
 
 app.listen(port, hostname, () => {
     console.log(`Running app on http://${hostname}:${port}/`)
-})
+});
