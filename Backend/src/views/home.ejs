@@ -9,28 +9,32 @@
 
 <body>
     <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="#news">News</a>
-        <a href="#contact">Contact</a>
-        <a href="#about">About</a>
+        <a class="active" href="/">Home</a>
+        <a href="/create">Create Champions</a>
     </div>
-    <div class="form-add-new">
-        <form action="/create-champions" method="post">
-            <fieldset>
-                <legend>Add new champions</legend>
-                <div class="input-group">
-                    <label>Tên:</label>
-                    <input type="text" name="id">
-                </div>
-                <div class="input-group">
-                    <label>Hình ảnh:</label>
-                    <input type="text" name="image">
-                </div>
-                <div>
-                    <button>Save</button>
-                </div>
-            </fieldset>
-        </form>
+    <div class="table-container">
+        <div class="title">List Champions</div>
+        <table>
+            <tr>
+                <th>Champion Name</th>
+                <th>Image</th>
+                <th>Chức năng</th>
+            </tr>
+            <% ListChampions.forEach(function(champion) { %>
+                <tr>
+                    <td>
+                        <%= champion.name %>
+                    </td>
+                    <td>
+                        <%= champion.image %>
+                    </td>
+                    <td>
+                        <a href="/update">Edit</a>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+                <% }) %>
+        </table>
     </div>
 
 </body>

@@ -45,3 +45,32 @@ button{
     margin: 10px;
     cursor: pointer;
 }
+
+.table-container{
+    padding: 15px 20px;
+}
+
+.table-container button{
+    padding: 5px;
+}
+
+table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.title{
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+th, td{
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid grey;
+}
+
+tr:hover{
+    background-color: grey;
+}

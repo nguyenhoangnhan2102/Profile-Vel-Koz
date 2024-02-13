@@ -18,13 +18,13 @@ app.use(express.json()); //dành cho json
 app.use(express.urlencoded({ extended: true })); //dành cho form data
 
 //Kết nối CSDL
-connection.query(
-    'SELECT * FROM CHAMPION u',
-    function (err, results, fields) {
-        console.log(results);
-        console.log(fields);
-    }
-);
+// connection.query(
+//     'SELECT * FROM CHAMPION u',
+//     function (err, results, fields) {
+//         console.log(results);
+//         console.log(fields);
+//     }
+// );
 
 //Khai báo route
 app.use('/', webRoute);
