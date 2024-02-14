@@ -3,8 +3,17 @@ const path = require('path');
 require('dotenv').config();
 const configViewEngine = require('./config/viewEngine');
 const webRoute = require('./routes/web');
-const connection = require('./config/dataBase');
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './upload')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
 
+const upload = multer({ storage: storage }).single('myfile');
 
 const app = express()
 const port = process.env.PORT || 8888;
@@ -17,17 +26,10 @@ configViewEngine(app);
 app.use(express.json()); //dành cho json
 app.use(express.urlencoded({ extended: true })); //dành cho form data
 
-//Kết nối CSDL
-// connection.query(
-//     'SELECT * FROM CHAMPION u',
-//     function (err, results, fields) {
-//         console.log(results);
-//         console.log(fields);
-//     }
-// );
-
 //Khai báo route
 app.use('/', webRoute);
+
+//Upload file
 
 app.listen(port, hostname, () => {
     console.log(`Running app on http://${hostname}:${port}/`)

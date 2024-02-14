@@ -13,16 +13,20 @@
         <a href="/create">Create Champions</a>
     </div>
     <div class="form-add-new">
-        <form action="/create-champions" method="post">
+        <form action="/update-champion" method="post">
             <fieldset>
                 <legend>Update Champion</legend>
+                <div class="input-group d-none">
+                    <label>ID:</label>
+                    <input type="text" name="idChampion" value="<%= championEdit.id %>">
+                </div>
                 <div class="input-group">
                     <label>Tên:</label>
-                    <input type="text" name="name">
+                    <input type="text" name="name" value="<%= championEdit.name %>">
                 </div>
                 <div class="input-group">
                     <label>Hình ảnh:</label>
-                    <input type="text" name="image">
+                    <input type="text" name="image" value="<%= championEdit.image %>">
                 </div>
                 <div>
                     <button>Save</button>

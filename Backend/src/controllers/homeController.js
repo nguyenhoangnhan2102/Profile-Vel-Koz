@@ -1,6 +1,12 @@
 
 const connection = require('../config/dataBase');
-const { getAllChampions } = require('../services/CRUD');
+// const { param } = require('../routes/web');
+const {
+    getAllChampions,
+    getChampionbyId,
+    updateChampionbyId,
+    deleteChampionById
+} = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
     let results = await getAllChampions();
@@ -14,44 +20,52 @@ const postCreationChampions = async (req, res) => {
 
     console.log('name=', name, 'image', image);
 
-    // let { name, image } = req.body;
-
-    // connection.query(
-    //     `INSERT INTO 
-    //     CHAMPION(name, image)
-    //     VALUES(?, ?)`,
-    //     [name, image],
-    //     function (err, results) {
-    //         console.log(results);
-    //         res.send('Created a champion!!!');
-    //     }
-    // );
-
     let [results, fields] = await connection.query(
         `INSERT INTO CHAMPION(name, image) VALUES (?, ?)`, [name, image]
     );
 
     console.log(">>>Check results: ", results);
 
-    res.send("Created a Champion succeed!!!");
-
-    // connection.query(
-    //     'SELECT * FROM CHAMPION u',
-    //     function (err, results, fields) {
-    //         console.log(results);
-    //         console.log(fields);
-    //     }
-    //)
-    // const [results, fields] = await connection.query('SELECT * FROM CHAMPION u');
-    // console.log(">>>Check results: ", results);
+    res.redirect("/");
 }
 
 const getCreatePage = (req, res) => {
     res.render('create.ejs');
 }
 
-const getUpdatePage = (req, res) => {
-    res.render('edit.ejs');
+const getUpdatePage = async (req, res) => {
+    const idChampion = req.params.id;
+
+    let champion = await getChampionbyId(idChampion);
+
+    res.render('edit.ejs', { championEdit: champion });
+}
+
+const postUpdateChampion = async (req, res) => {
+
+    let name = req.body.name;
+    let image = req.body.image;
+    let idChampion = req.body.idChampion;
+
+    await updateChampionbyId(name, image, idChampion);
+
+    // res.send("Updated a Champion succeed!!!");
+    res.redirect("/");
+}
+
+const postDeleteChampion = async (req, res) => {
+    const idChampion = req.params.id;
+
+    let champion = await getChampionbyId(idChampion);
+    res.render("delete.ejs", { championEdit: champion });
+}
+
+const postHandleRemoveChampion = async (req, res) => {
+    const id = req.body.idChampion;
+
+    await deleteChampionById(id)
+
+    res.redirect('/');
 }
 
 module.exports = {
@@ -59,4 +73,8 @@ module.exports = {
     postCreationChampions,
     getCreatePage,
     getUpdatePage,
+    postUpdateChampion,
+    updateChampionbyId,
+    postDeleteChampion,
+    postHandleRemoveChampion,
 }

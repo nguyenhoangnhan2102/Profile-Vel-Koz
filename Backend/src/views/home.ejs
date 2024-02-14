@@ -16,6 +16,7 @@
         <div class="title">List Champions</div>
         <table>
             <tr>
+                <th>ID</th>
                 <th>Champion Name</th>
                 <th>Image</th>
                 <th>Chức năng</th>
@@ -23,17 +24,23 @@
             <% ListChampions.forEach(function(champion) { %>
                 <tr>
                     <td>
+                        <%= champion.id %>
+                    </td>
+                    <td>
                         <%= champion.name %>
                     </td>
                     <td>
                         <%= champion.image %>
                     </td>
                     <td>
-                        <a href="/update">Edit</a>
-                        <button>Delete</button>
+                        <a href="/update/<%= champion.id %>">Edit</a>
+                        <form action="/delete-champion/<%=champion.id%>" method="post">
+                            <button>Delete</button>
+                        </form>
+
                     </td>
                 </tr>
-                <% }) %>
+                <% }); %>
         </table>
     </div>
 
