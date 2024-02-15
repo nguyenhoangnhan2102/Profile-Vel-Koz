@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/nguyenhoangnhan2102/Profile-Vel-Koz#readme",
   "dependencies": {
+    "app-root-path": "^3.1.0",
     "dotenv": "16.0.3",
     "ejs": "3.1.8",
     "express": "^4.18.2",

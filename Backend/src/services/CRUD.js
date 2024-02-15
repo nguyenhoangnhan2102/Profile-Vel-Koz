@@ -1,3 +1,4 @@
+const multer = require('multer');
 const connection = require('../config/dataBase');
 
 const getAllChampions = async (req, res) => {
@@ -15,24 +16,26 @@ const getChampionbyId = async (idChampion) => {
     return champion;
 };
 
-const updateChampionbyId = async (name, image, idChampion) => {
-    let [results, fields] = await connection.query(
-        `UPDATE CHAMPION
-        SET name = ?, image = ?     
-        WHERE id = ?
-        `, [name, image, idChampion]
-    );
-}
+// const updateChampionbyId = async (req, res, name, idChampion) => {
+
+
+// }
 
 const deleteChampionById = async (id) => {
-    let [results, fields] = await connection.query(
-        `DELETE FROM CHAMPION WHERE id = ?`, [id]
-    );
+    try {
+        let [results, fields] = await connection.query(
+            `DELETE FROM CHAMPION WHERE id = ?`, [id]
+        );
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Lỗi Nội Server");
+    }
 }
 
 module.exports = {
     getAllChampions,
     getChampionbyId,
-    updateChampionbyId,
+    //updateChampionbyId,
     deleteChampionById,
 }

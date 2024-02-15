@@ -6,10 +6,10 @@ const webRoute = require('./routes/web');
 const multer = require('multer');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './upload')
+        return cb(null, './public/img')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname)
+        return cb(null, `${Data.now()}_${file.originalname}`)
     }
 })
 

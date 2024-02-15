@@ -13,22 +13,22 @@
         <a class="active" href="/create">Create Champions</a>
     </div>
     <div class="form-add-new">
-        <form action="/create-champions" method="post">
+        <form action="/create-champions" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>Add new champions</legend>
                 <div class="input-group">
                     <label>Tên:</label>
-                    <input type="text" name="name">
+                    <input type="text" name="champion_name">
                 </div>
                 <div class="input-group">
-                    <label>Hình ảnh:</label>
-                    <input type="text" name="image">
+                    <input type="file" name="profile_pic">
                 </div>
                 <div>
                     <button>Confirm</button>
                 </div>
             </fieldset>
         </form>
+        <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data"></form>
     </div>
 
 </body>

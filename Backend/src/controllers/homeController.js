@@ -1,11 +1,12 @@
 
 const connection = require('../config/dataBase');
 // const { param } = require('../routes/web');
+const multer = require('multer');
 const {
     getAllChampions,
     getChampionbyId,
-    updateChampionbyId,
-    deleteChampionById
+    //updateChampionbyId,
+    deleteChampionById,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -15,18 +16,22 @@ const getHomePage = async (req, res) => {
 
 const postCreationChampions = async (req, res) => {
 
-    let name = req.body.name;
-    let image = req.body.image;
+    let champion_name = req.body.champion_name;
 
-    console.log('name=', name, 'image', image);
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
 
-    let [results, fields] = await connection.query(
-        `INSERT INTO CHAMPION(name, image) VALUES (?, ?)`, [name, image]
-    );
-
-    console.log(">>>Check results: ", results);
-
-    res.redirect("/");
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO CHAMPION(name, image) VALUES (?, ?)`, [champion_name, req.file.filename]
+        );
+        return res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 const getCreatePage = (req, res) => {
@@ -43,15 +48,26 @@ const getUpdatePage = async (req, res) => {
 
 const postUpdateChampion = async (req, res) => {
 
-    let name = req.body.name;
-    let image = req.body.image;
     let idChampion = req.body.idChampion;
+    let champion_name = req.body.champion_name;
 
-    await updateChampionbyId(name, image, idChampion);
-
-    // res.send("Updated a Champion succeed!!!");
-    res.redirect("/");
-}
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+    try {
+        let [results, fields] = await connection.query(
+            `UPDATE CHAMPION
+            SET name = ?, image = ?     
+            WHERE id = ?
+        `, [champion_name, req.file.filename, idChampion]
+        );
+        res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
 
 const postDeleteChampion = async (req, res) => {
     const idChampion = req.params.id;
@@ -74,7 +90,7 @@ module.exports = {
     getCreatePage,
     getUpdatePage,
     postUpdateChampion,
-    updateChampionbyId,
+    //updateChampionbyId,
     postDeleteChampion,
     postHandleRemoveChampion,
 }
