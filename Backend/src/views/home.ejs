@@ -19,7 +19,8 @@
                 <th>ID</th>
                 <th>Champion Name</th>
                 <th>Image</th>
-                <th>Chức năng</th>
+                <th>Skins</th>
+                <th>Action</th>
             </tr>
             <% ListChampions.forEach(function(champion) { %>
                 <tr>
@@ -30,8 +31,14 @@
                         <%= champion.name %>
                     </td>
                     <td>
-                        <img src="/img/<%=champion.image%>" alt="" width="100px" height="100px">
+                        <img src="/img/<%=champion.image%>" alt="" width="200px" height="200px">
                     </td>
+                    <td>
+                        <form action="/skin/<%=champion.id%>" method="post">
+                            <button>Xem</button>
+                        </form>
+                    </td>
+
                     <td>
                         <a href="/update/<%= champion.id %>">Edit</a>
                         <form action="/delete-champion/<%=champion.id%>" method="post">

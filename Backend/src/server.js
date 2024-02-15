@@ -4,16 +4,7 @@ require('dotenv').config();
 const configViewEngine = require('./config/viewEngine');
 const webRoute = require('./routes/web');
 const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        return cb(null, './public/img')
-    },
-    filename: function (req, file, cb) {
-        return cb(null, `${Data.now()}_${file.originalname}`)
-    }
-})
 
-const upload = multer({ storage: storage }).single('myfile');
 
 const app = express()
 const port = process.env.PORT || 8888;

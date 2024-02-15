@@ -7,12 +7,20 @@ const {
     getChampionbyId,
     //updateChampionbyId,
     deleteChampionById,
+    getSkinById,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
     let results = await getAllChampions();
     return res.render('home.ejs', { ListChampions: results });
-}
+};
+
+// const getSkinPage = async (req, res) => {
+
+//     let results = await getSkinById();
+
+//     return res.render('skin.ejs', { listSkin: results });
+// };
 
 const postCreationChampions = async (req, res) => {
 
@@ -36,6 +44,14 @@ const postCreationChampions = async (req, res) => {
 
 const getCreatePage = (req, res) => {
     res.render('create.ejs');
+}
+
+const postSkinPage = async (req, res) => {
+    const idChampion = req.params.id;
+
+    let skin = await getSkinById(idChampion);
+
+    res.render('skin.ejs', { listSkin: skin });
 }
 
 const getUpdatePage = async (req, res) => {
@@ -82,7 +98,7 @@ const postHandleRemoveChampion = async (req, res) => {
     await deleteChampionById(id)
 
     res.redirect('/');
-}
+};
 
 module.exports = {
     getHomePage,
@@ -93,4 +109,5 @@ module.exports = {
     //updateChampionbyId,
     postDeleteChampion,
     postHandleRemoveChampion,
+    postSkinPage,
 }

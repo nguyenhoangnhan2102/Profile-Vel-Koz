@@ -11,6 +11,7 @@ const { getHomePage,
     postUpdateChampion,
     postDeleteChampion,
     postHandleRemoveChampion,
+    postSkinPage,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -52,5 +53,7 @@ router.post('/update-champion', upload.single("profile_pic"), postUpdateChampion
 router.post('/delete-champion', postHandleRemoveChampion);
 
 router.post('/delete-champion/:id', postDeleteChampion);
+
+router.post('/skin/:id', postSkinPage);
 
 module.exports = router;
