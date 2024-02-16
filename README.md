@@ -6,3 +6,4 @@
 - Ngày 13/02/2024: Thêm mới champion, chỉnh sửa giao diện.
 - Ngày 14/02/2024: Sửa, xóa champion.
 - Ngày 15/02/2024: Thêm, sửa, xóa Champion, thành công upload file image.
+- Ngày 16/02/2024: Liên kết thành công Champion và Skin.
