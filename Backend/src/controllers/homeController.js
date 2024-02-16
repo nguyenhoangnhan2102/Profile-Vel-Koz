@@ -8,6 +8,7 @@ const {
     //updateChampionbyId,
     deleteChampionById,
     getSkinById,
+    //getEditSkinById,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -123,8 +124,45 @@ const postHandleRemoveChampion = async (req, res) => {
 
 const getCreateSkinPage = (req, res) => {
     res.render('create-skin.ejs');
-}
+};
 
+const getUpdateSkinPage = async (req, res) => {
+    const champion_id = req.params.champion_id;
+
+    let [results, fields] = await connection.query(
+        `SELECT TRANGPHUC WHERE champion_id = ?`, [champion_id]
+    );
+    res.render('edit-skin.ejs', { skinEdit: skin });
+};
+
+const postEditSkin = async (req, res) => {
+
+    let skin_name = req.body.skin_name;
+    let champion_id = req.body.champion_id;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+    try {
+        let [results, fields] = await connection.query(
+            `UPDATE TRANGPHUC
+            SET tentrangphuc = ?, motatrangphuc = ?     
+            WHERE champion_id = ?
+        `, [skin_name, req.file.filename, champion_id]
+        );
+        res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+const postDeleteSkin = async (req, res) => {
+    const champion_id = req.params.champion_id;
+    let skin = await getChampionbyId(champion_id);
+    res.render('delete-skin.ejs', { skinEdit: skin });
+}
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -137,4 +175,7 @@ module.exports = {
     postSkinPage,
     postCreateSkin,
     getCreateSkinPage,
+    getUpdateSkinPage,
+    postEditSkin,
+    postDeleteSkin,
 }

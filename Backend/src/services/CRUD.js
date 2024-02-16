@@ -23,21 +23,34 @@ const getSkinById = async (idChampion) => {
     return results;
 };
 
+// const getEditSkinById = async (idChampion) => {
+//     let [results, fields] = await connection.query(
+//         "SELECT * FROM TRANGPHUC where champion_id = ?", [idChampion],
+//     );
+
+//     let champion = results && results.length > 0 ? results[0] : {};
+
+//     return champion;
+// };
+
 // const getSkinById = async (req, res) => {
 //     let [results, fields] = await connection.query('SELECT * FROM TRANGPHUC ');
 //     return results;
 // };
 
 const deleteChampionById = async (id) => {
-    try {
-        let [results, fields] = await connection.query(
-            `DELETE FROM CHAMPION WHERE id = ?`, [id]
-        );
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send("Lỗi Nội Server");
-    }
+    // try {
+    //     let [results, fields] = await connection.query(
+    //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
+    //     );
+    // }
+    // catch (error) {
+    //     console.error(error);
+    //     res.status(500).send("Lỗi Nội Server");
+    // }
+    let [results, fields] = await connection.query(
+        `DELETE FROM CHAMPION WHERE id = ?`, [id]
+    );
 };
 
 
@@ -48,4 +61,5 @@ module.exports = {
     //updateChampionbyId,
     deleteChampionById,
     getSkinById,
+    //getEditSkinById,
 }

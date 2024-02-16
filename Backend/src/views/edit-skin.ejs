@@ -1,0 +1,37 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update A Champion</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a href="/create">Create Champions</a>
+    </div>
+    <div class="form-add-new">
+        <form action="/update-skin" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Update Champion</legend>
+                <div>Hello</div>
+                <div class="input-group d-none">
+                    <label>ID:</label>
+                    <input type="text" name="idChampion" value="<%= skinEdit.id %>">
+                </div>
+                <div class="input-group">
+                    <label>Name Skin:</label>
+                    <input type="text" name="skin_name" value="<%= skinEdit.name %>">
+                </div>
+                <div class="input-group">
+                    <input type="file" name="profile_pic" value="<%= skinEdit.image %>">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+</body>
+
+</html>

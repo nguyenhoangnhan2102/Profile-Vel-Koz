@@ -31,8 +31,16 @@
                     </td>
                     <td>
                         <img src="/img/<%=skin.motatrangphuc%>" alt="" width="200px" height="200px">
+                    <td>
+                        <a href="/update-skin/<%= skin.champion_id %>">Edit</a>
+                        <form action="/delete-skin/<%= skin.champion_id %>" method="post">
+                            <button>Delete</button>
+                        </form>
+
+                    </td>
                     </td>
                 </tr>
+
                 <% }); %>
         </table>
     </div>
