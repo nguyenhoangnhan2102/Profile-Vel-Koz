@@ -40,6 +40,27 @@ const postCreationChampions = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
+};
+
+const postCreateSkin = async (req, res) => {
+
+    let skin_name = req.body.skin_name;
+    let champion_id = req.body.champion_id;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO TRANGPHUC(tentrangphuc, motatrangphuc, champion_id) VALUES (?, ?, ?)`, [skin_name, req.file.filename, champion_id]
+        );
+        return res.render("skin.ejs");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
 }
 
 const getCreatePage = (req, res) => {
@@ -100,6 +121,10 @@ const postHandleRemoveChampion = async (req, res) => {
     res.redirect('/');
 };
 
+const getCreateSkinPage = (req, res) => {
+    res.render('create-skin.ejs');
+}
+
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -110,4 +135,6 @@ module.exports = {
     postDeleteChampion,
     postHandleRemoveChampion,
     postSkinPage,
+    postCreateSkin,
+    getCreateSkinPage,
 }

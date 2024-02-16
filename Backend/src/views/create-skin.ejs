@@ -1,0 +1,39 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="/">Home</a>
+        <a class="active" href="/create-skin-page">Create Skin</a>
+    </div>
+    <div class="form-add-new">
+        <form action="/create-skin" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Add new champions</legend>
+                <div class="input-group">
+                    <label>Skin Name:</label>
+                    <input type="text" name="skin_name">
+                </div>
+                <div class="input-group">
+                    <label>Skin ID:</label>
+                    <input type="text" name="profile_pic">
+                </div>
+                <div class="input-group">
+                    <input type="file" name="profile_pic">
+                </div>
+                <div>
+                    <button>Confirm</button>
+                </div>
+            </fieldset>
+        </form>
+        <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data"></form>
+    </div>
+</body>
+
+</html>

@@ -12,6 +12,8 @@ const { getHomePage,
     postDeleteChampion,
     postHandleRemoveChampion,
     postSkinPage,
+    getCreateSkinPage,
+    postCreateSkin,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -55,5 +57,9 @@ router.post('/delete-champion', postHandleRemoveChampion);
 router.post('/delete-champion/:id', postDeleteChampion);
 
 router.post('/skin/:id', postSkinPage);
+
+router.get('/create-skin-page', getCreateSkinPage);
+
+router.post('/create-skin', upload.single("profile_pic"), postCreateSkin);
 
 module.exports = router;
