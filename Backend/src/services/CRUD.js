@@ -8,7 +8,7 @@ const getAllChampions = async (req, res) => {
 
 const getChampionbyId = async (idChampion) => {
     let [results, fields] = await connection.query(
-        "SELECT * FROM CHAMPION where id = ?", [idChampion],
+        "SELECT * FROM CHAMPION WHERE champion_id = ?", [idChampion],
     );
 
     let champion = results && results.length > 0 ? results[0] : {};
@@ -17,8 +17,7 @@ const getChampionbyId = async (idChampion) => {
 };
 
 const getSkinById = async (idChampion) => {
-    let [results, fields] = await connection.query('SELECT * FROM TRANGPHUC WHERE champion_id = ?', [idChampion],);
-
+    let [results, fields] = await connection.query('SELECT * FROM SKIN WHERE champion_id = ?', [idChampion],);
     // let skin = results && results.length > 0 ? results[0] : {};
     return results;
 };
@@ -38,7 +37,7 @@ const getSkinById = async (idChampion) => {
 //     return results;
 // };
 
-const deleteChampionById = async (id) => {
+const deleteChampionById = async (idChampion) => {
     // try {
     //     let [results, fields] = await connection.query(
     //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
@@ -49,11 +48,24 @@ const deleteChampionById = async (id) => {
     //     res.status(500).send("Lỗi Nội Server");
     // }
     let [results, fields] = await connection.query(
-        `DELETE FROM CHAMPION WHERE id = ?`, [id]
+        `DELETE FROM CHAMPION WHERE champion_id = ?`, [idChampion]
     );
 };
 
-
+// const deleteSkinById = async (idChampion) => {
+//     // try {
+//     //     let [results, fields] = await connection.query(
+//     //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
+//     //     );
+//     // }
+//     // catch (error) {
+//     //     console.error(error);
+//     //     res.status(500).send("Lỗi Nội Server");
+//     // }
+//     let [results, fields] = await connection.query(
+//         `DELETE FROM SKIN WHERE skin_id = ?`, [idChampion]
+//     );
+// };
 
 module.exports = {
     getAllChampions,
@@ -62,4 +74,5 @@ module.exports = {
     deleteChampionById,
     getSkinById,
     //getEditSkinById,
+    //deleteSkinById,
 }

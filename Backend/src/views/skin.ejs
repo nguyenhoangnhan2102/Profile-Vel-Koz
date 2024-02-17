@@ -16,7 +16,8 @@
         <div class="title">List Skin</div>
         <table>
             <tr>
-                <th>ID</th>
+                <th>ID Champion</th>
+                <th>ID Skin</th>
                 <th>Skin Name</th>
                 <th>Image</th>
                 <th>Action</th>
@@ -27,13 +28,16 @@
                         <%= skin.champion_id %>
                     </td>
                     <td>
+                        <%= skin.skin_id %>
+                    </td>
+                    <td>
                         <%= skin.tentrangphuc %>
                     </td>
                     <td>
                         <img src="/img/<%=skin.motatrangphuc%>" alt="" width="200px" height="200px">
                     <td>
-                        <a href="/update-skin/<%= skin.champion_id %>">Edit</a>
-                        <form action="/delete-skin/<%= skin.champion_id %>" method="post">
+                        <a href="/update-skin/<%= skin.skin_id %>">Edit</a>
+                        <form action="/delete-skin/<%= skin.skin_id %>" method="post">
                             <button>Delete</button>
                         </form>
 

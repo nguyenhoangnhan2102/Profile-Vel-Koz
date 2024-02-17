@@ -17,6 +17,7 @@ const { getHomePage,
     getUpdateSkinPage,
     postEditSkin,
     postDeleteSkin,
+    postHandleRemoveSkin,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -45,19 +46,24 @@ const imageFilter = function (req, file, cb) {
 const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 //route.Method('/route', name_handle)
+
+//Trang home
 router.get('/', getHomePage);
 
+// Tướng
 router.get('/create', getCreatePage);
 
 router.post('/create-champions', upload.single("profile_pic"), postCreationChampions);
 
-router.get('/update/:id', getUpdatePage);
+router.get('/update/:champion_id', getUpdatePage);
 
 router.post('/update-champion', upload.single("profile_pic"), postUpdateChampion);
 
 router.post('/delete-champion', postHandleRemoveChampion);
 
-router.post('/delete-champion/:id', postDeleteChampion);
+router.post('/delete-champion/:champion_id', postDeleteChampion);
+
+// Trang phục
 
 router.post('/skin/:id', postSkinPage);
 
@@ -65,10 +71,12 @@ router.get('/create-skin-page', getCreateSkinPage);
 
 router.post('/create-skin', upload.single("profile_pic"), postCreateSkin);
 
-router.get('/update-skin/champion_id', getUpdateSkinPage);
+router.get('/update-skin/:skin_id', getUpdateSkinPage);
 
 router.post('/update-skin', upload.single("profile_pic"), postEditSkin);
 
-router.post('/delete-skin', postDeleteSkin);
+// router.post('/delete-skin', postHandleRemoveSkin);
+
+// router.post('/delete-skin/:skin_id', postDeleteSkin);
 
 module.exports = router;

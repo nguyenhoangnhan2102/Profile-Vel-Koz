@@ -9,6 +9,7 @@ const {
     deleteChampionById,
     getSkinById,
     //getEditSkinById,
+    //deleteSkinById,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -46,7 +47,7 @@ const postCreationChampions = async (req, res) => {
 const postCreateSkin = async (req, res) => {
 
     let skin_name = req.body.skin_name;
-    let champion_id = req.body.champion_id;
+    let id_champion = req.body.id_champion;
 
     if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
@@ -56,9 +57,11 @@ const postCreateSkin = async (req, res) => {
 
     try {
         let [results, fields] = await connection.query(
-            `INSERT INTO TRANGPHUC(tentrangphuc, motatrangphuc, champion_id) VALUES (?, ?, ?)`, [skin_name, req.file.filename, champion_id]
+            `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
         );
-        return res.render("skin.ejs");
+        // return res.render("skin.ejs");
+
+        return res.redirect("/");
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -71,13 +74,16 @@ const getCreatePage = (req, res) => {
 const postSkinPage = async (req, res) => {
     const idChampion = req.params.id;
 
+    console.log('>>>Check', req.params)
+
     let skin = await getSkinById(idChampion);
 
     res.render('skin.ejs', { listSkin: skin });
 }
 
 const getUpdatePage = async (req, res) => {
-    const idChampion = req.params.id;
+
+    const idChampion = req.params.champion_id;
 
     let champion = await getChampionbyId(idChampion);
 
@@ -98,7 +104,7 @@ const postUpdateChampion = async (req, res) => {
         let [results, fields] = await connection.query(
             `UPDATE CHAMPION
             SET name = ?, image = ?     
-            WHERE id = ?
+            WHERE champion_id = ?
         `, [champion_name, req.file.filename, idChampion]
         );
         res.redirect("/");
@@ -108,16 +114,15 @@ const postUpdateChampion = async (req, res) => {
 };
 
 const postDeleteChampion = async (req, res) => {
-    const idChampion = req.params.id;
-
+    const idChampion = req.params.champion_id;
     let champion = await getChampionbyId(idChampion);
     res.render("delete.ejs", { championEdit: champion });
 }
 
 const postHandleRemoveChampion = async (req, res) => {
-    const id = req.body.idChampion;
+    const idChampion = req.body.idChampion;
 
-    await deleteChampionById(id)
+    await deleteChampionById(idChampion)
 
     res.redirect('/');
 };
@@ -127,11 +132,13 @@ const getCreateSkinPage = (req, res) => {
 };
 
 const getUpdateSkinPage = async (req, res) => {
-    const champion_id = req.params.champion_id;
+    const idSkin = req.params.skin_id;
 
     let [results, fields] = await connection.query(
-        `SELECT TRANGPHUC WHERE champion_id = ?`, [champion_id]
+        `SELECT * FROM SKIN WHERE skin_id = ?`, [idSkin]
     );
+
+
     res.render('edit-skin.ejs', { skinEdit: skin });
 };
 
@@ -158,11 +165,20 @@ const postEditSkin = async (req, res) => {
     }
 };
 
-const postDeleteSkin = async (req, res) => {
-    const champion_id = req.params.champion_id;
-    let skin = await getChampionbyId(champion_id);
-    res.render('delete-skin.ejs', { skinEdit: skin });
-}
+// const postDeleteSkin = async (req, res) => {
+//     const idChampion = req.params.champion_id;
+//     let skin = await getChampionbyId(idChampion);
+//     res.render("delete.ejs", { editSkin: skin });
+// }
+
+// const postHandleRemoveSkin = async (req, res) => {
+//     const idChampion = req.body.idChampion;
+
+//     await deleteSkinById(idChampion)
+
+//     res.redirect('/');
+// };
+
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -177,5 +193,6 @@ module.exports = {
     getCreateSkinPage,
     getUpdateSkinPage,
     postEditSkin,
-    postDeleteSkin,
+    //postDeleteSkin,
+    //postHandleRemoveSkin,
 }
