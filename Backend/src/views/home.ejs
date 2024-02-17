@@ -41,10 +41,9 @@
 
                     <td>
                         <a href="/update/<%= champion.champion_id %>">Edit</a>
-                        <form action="/delete-champion/<%=champion.champion_id%>" method="post">
+                        <form action="/delete-champion/<%= champion.champion_id %>" method="post">
                             <button>Delete</button>
                         </form>
-
                     </td>
                 </tr>
                 <% }); %>

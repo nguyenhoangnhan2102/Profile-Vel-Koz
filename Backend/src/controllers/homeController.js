@@ -74,8 +74,6 @@ const getCreatePage = (req, res) => {
 const postSkinPage = async (req, res) => {
     const idChampion = req.params.id;
 
-    console.log('>>>Check', req.params)
-
     let skin = await getSkinById(idChampion);
 
     res.render('skin.ejs', { listSkin: skin });
@@ -115,14 +113,16 @@ const postUpdateChampion = async (req, res) => {
 
 const postDeleteChampion = async (req, res) => {
     const idChampion = req.params.champion_id;
+
     let champion = await getChampionbyId(idChampion);
+
     res.render("delete.ejs", { championEdit: champion });
 }
 
 const postHandleRemoveChampion = async (req, res) => {
-    const idChampion = req.body.idChampion;
+    const id = req.body.idChampion;
 
-    await deleteChampionById(idChampion)
+    await deleteChampionById(id)
 
     res.redirect('/');
 };

@@ -64,7 +64,6 @@ router.post('/delete-champion', postHandleRemoveChampion);
 router.post('/delete-champion/:champion_id', postDeleteChampion);
 
 // Trang phục
-
 router.post('/skin/:id', postSkinPage);
 
 router.get('/create-skin-page', getCreateSkinPage);

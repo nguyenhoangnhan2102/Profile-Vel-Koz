@@ -37,7 +37,7 @@ const getSkinById = async (idChampion) => {
 //     return results;
 // };
 
-const deleteChampionById = async (idChampion) => {
+const deleteChampionById = async (id) => {
     // try {
     //     let [results, fields] = await connection.query(
     //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
@@ -48,7 +48,7 @@ const deleteChampionById = async (idChampion) => {
     //     res.status(500).send("Lỗi Nội Server");
     // }
     let [results, fields] = await connection.query(
-        `DELETE FROM CHAMPION WHERE champion_id = ?`, [idChampion]
+        `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
     );
 };
 
