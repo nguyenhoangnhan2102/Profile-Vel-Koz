@@ -10,6 +10,7 @@ const {
     getSkinById,
     //getEditSkinById,
     //deleteSkinById,
+    getSkinUpdatebyId,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -59,9 +60,8 @@ const postCreateSkin = async (req, res) => {
         let [results, fields] = await connection.query(
             `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
         );
-        // return res.render("skin.ejs");
 
-        return res.redirect("/");
+        return res.render("skin.ejs");
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -86,7 +86,7 @@ const getUpdatePage = async (req, res) => {
     let champion = await getChampionbyId(idChampion);
 
     res.render('edit.ejs', { championEdit: champion });
-}
+};
 
 const postUpdateChampion = async (req, res) => {
 
@@ -132,20 +132,19 @@ const getCreateSkinPage = (req, res) => {
 };
 
 const getUpdateSkinPage = async (req, res) => {
-    const idSkin = req.params.skin_id;
 
-    let [results, fields] = await connection.query(
-        `SELECT * FROM SKIN WHERE skin_id = ?`, [idSkin]
-    );
+    const skinId = req.params.skin_id;
 
+    let skin = await getSkinUpdatebyId(skinId);
 
     res.render('edit-skin.ejs', { skinEdit: skin });
 };
 
 const postEditSkin = async (req, res) => {
 
+    let skin_id = req.body.skin_id;
     let skin_name = req.body.skin_name;
-    let champion_id = req.body.champion_id;
+    let championId = req.body.championId;
 
     if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
@@ -154,10 +153,10 @@ const postEditSkin = async (req, res) => {
     }
     try {
         let [results, fields] = await connection.query(
-            `UPDATE TRANGPHUC
-            SET tentrangphuc = ?, motatrangphuc = ?     
-            WHERE champion_id = ?
-        `, [skin_name, req.file.filename, champion_id]
+            `UPDATE SKIN
+            SET tentrangphuc = ?, champion_id = ?, motatrangphuc = ?     
+            WHERE skin_id = ?
+        `, [skin_name, championId, req.file.filename, skin_id]
         );
         res.redirect("/");
     } catch (error) {

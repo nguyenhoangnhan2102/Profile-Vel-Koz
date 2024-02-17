@@ -19,14 +19,21 @@
                 <div>Hello</div>
                 <div class="input-group d-none">
                     <label>ID:</label>
-                    <input type="text" name="champion_id" value="<%= skinEdit.id %>">
+                    <input type="text" name="skin_id" value="<%= skinEdit.skin_id %>">
                 </div>
                 <div class="input-group">
                     <label>Name Skin:</label>
-                    <input type="text" name="skin_name" value="<%= skinEdit.name %>">
+                    <input type="text" name="skin_name" value="<%= skinEdit.tentrangphuc %>">
                 </div>
                 <div class="input-group">
-                    <input type="file" name="profile_pic" value="<%= skinEdit.image %>">
+                    <label>ID Champion:</label>
+                    <input type="text" name="championId" value="<%= skinEdit.champion_id %>" readonly>
+                </div>
+                <div class="input-group">
+                    <input type="file" name="profile_pic" value="<%= skinEdit.motatrangphuc %>">
+                </div>
+                <div>
+                    <button>Save</button>
                 </div>
             </fieldset>
         </form>

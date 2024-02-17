@@ -16,8 +16,8 @@ const { getHomePage,
     postCreateSkin,
     getUpdateSkinPage,
     postEditSkin,
-    postDeleteSkin,
-    postHandleRemoveSkin,
+    // postDeleteSkin,
+    // postHandleRemoveSkin,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -59,9 +59,9 @@ router.get('/update/:champion_id', getUpdatePage);
 
 router.post('/update-champion', upload.single("profile_pic"), postUpdateChampion);
 
-router.post('/delete-champion', postHandleRemoveChampion);
-
 router.post('/delete-champion/:champion_id', postDeleteChampion);
+
+router.post('/delete-champion', postHandleRemoveChampion);
 
 // Trang phục
 router.post('/skin/:id', postSkinPage);

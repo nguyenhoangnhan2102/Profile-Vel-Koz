@@ -38,18 +38,28 @@ const getSkinById = async (idChampion) => {
 // };
 
 const deleteChampionById = async (id) => {
-    // try {
-    //     let [results, fields] = await connection.query(
-    //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
-    //     );
-    // }
-    // catch (error) {
-    //     console.error(error);
-    //     res.status(500).send("Lỗi Nội Server");
-    // }
+    try {
+        await connection.query(
+            `DELETE FROM SKIN WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
+        );
+        await connection.query(
+            `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
+        );
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Lỗi Nội Server");
+    };
+};
+
+const getSkinUpdatebyId = async (skinId) => {
     let [results, fields] = await connection.query(
-        `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
+        "SELECT * FROM SKIN WHERE skin_id = ?", [skinId],
     );
+
+    let skin = results && results.length > 0 ? results[0] : {};
+
+    return skin;
 };
 
 // const deleteSkinById = async (idChampion) => {
@@ -75,4 +85,5 @@ module.exports = {
     getSkinById,
     //getEditSkinById,
     //deleteSkinById,
+    getSkinUpdatebyId,
 }
