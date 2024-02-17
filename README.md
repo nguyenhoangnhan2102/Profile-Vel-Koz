@@ -11,4 +11,4 @@
   + Thêm, sửa, xóa Skin (chưa hoàn thành).
 - Ngày 17/02/2024:
   + Chỉnh sửa lại CSDL
-  + Đang gặp rắc rối :((
+  + Thêm thành công Champion và Skin.
