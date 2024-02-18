@@ -17,13 +17,16 @@
             <fieldset>
                 <legend>Delete Skin</legend>
                 <div>Hello</div>
-                <div class="input-group d-none">
+                <div class="input-group">
                     <label>ID:</label>
-                    <input type="text" name="skinId" value="<%= skinEdit.skin_id %>">
+                    <input type="text" name="skin_id" value="<%= skinEdit.skin_id %>" readonly>
                 </div>
                 <div class="input-group">
-                    <label>Name Skin:</label>
+                    <label>Are you sure to detele this skin?</label>
                     <input type="text" name="skin_name" value="<%= skinEdit.tentrangphuc %>">
+                </div>
+                <div>
+                    <button>Confirm</button>
                 </div>
             </fieldset>
         </form>

@@ -62,28 +62,17 @@ const getSkinUpdatebyId = async (skinId) => {
     return skin;
 };
 
-// const deleteSkinById = async (idChampion) => {
-//     // try {
-//     //     let [results, fields] = await connection.query(
-//     //         `DELETE FROM CHAMPION WHERE id = ?`, [id]
-//     //     );
-//     // }
-//     // catch (error) {
-//     //     console.error(error);
-//     //     res.status(500).send("Lỗi Nội Server");
-//     // }
-//     let [results, fields] = await connection.query(
-//         `DELETE FROM SKIN WHERE skin_id = ?`, [idChampion]
-//     );
-// };
+const deleteSkinById = async (id) => {
+    let [results, fields] = await connection.query(
+        ` DELETE FROM SKIN WHERE skin_id = ? `, [id]
+    );
+};
 
 module.exports = {
     getAllChampions,
     getChampionbyId,
-    //updateChampionbyId,
     deleteChampionById,
     getSkinById,
-    //getEditSkinById,
-    //deleteSkinById,
+    deleteSkinById,
     getSkinUpdatebyId,
 }

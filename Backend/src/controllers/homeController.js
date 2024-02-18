@@ -9,7 +9,7 @@ const {
     deleteChampionById,
     getSkinById,
     //getEditSkinById,
-    //deleteSkinById,
+    deleteSkinById,
     getSkinUpdatebyId,
 } = require('../services/CRUD');
 
@@ -61,7 +61,7 @@ const postCreateSkin = async (req, res) => {
             `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
         );
 
-        return res.render("skin.ejs");
+        return res.redirect("/");
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -73,6 +73,8 @@ const getCreatePage = (req, res) => {
 
 const postSkinPage = async (req, res) => {
     const idChampion = req.params.id;
+
+    console.log(idChampion);
 
     let skin = await getSkinById(idChampion);
 
@@ -142,7 +144,7 @@ const getUpdateSkinPage = async (req, res) => {
 
 const postEditSkin = async (req, res) => {
 
-    let skin_id = req.body.skin_id;
+    let skin_id = req.body.skinId;
     let skin_name = req.body.skin_name;
     let championId = req.body.championId;
 
@@ -164,19 +166,21 @@ const postEditSkin = async (req, res) => {
     }
 };
 
-// const postDeleteSkin = async (req, res) => {
-//     const idChampion = req.params.champion_id;
-//     let skin = await getChampionbyId(idChampion);
-//     res.render("delete.ejs", { editSkin: skin });
-// }
+const postDeleteSkin = async (req, res) => {
+    const skinId = req.params.skin_id;
 
-// const postHandleRemoveSkin = async (req, res) => {
-//     const idChampion = req.body.idChampion;
+    let skin = await getSkinUpdatebyId(skinId);
 
-//     await deleteSkinById(idChampion)
+    res.render('delete-skin.ejs', { skinEdit: skin });
+}
 
-//     res.redirect('/');
-// };
+const postHandleRemoveSkin = async (req, res) => {
+    const id = req.body.skin_id;
+
+    await deleteSkinById(id);
+
+    res.redirect('/');
+};
 
 module.exports = {
     getHomePage,
@@ -192,6 +196,6 @@ module.exports = {
     getCreateSkinPage,
     getUpdateSkinPage,
     postEditSkin,
-    //postDeleteSkin,
-    //postHandleRemoveSkin,
+    postDeleteSkin,
+    postHandleRemoveSkin,
 }
