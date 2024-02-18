@@ -12,3 +12,6 @@
 - Ngày 17/02/2024:
   + Chỉnh sửa lại CSDL
   + Thêm thành công Champion và Skin.
+- Ngày 18/02/2024:
+  + Sửa, xóa Champion.
+  + Sửa Skin.
