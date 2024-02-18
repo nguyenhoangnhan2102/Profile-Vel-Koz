@@ -18,6 +18,8 @@ const { getHomePage,
     postEditSkin,
     postDeleteSkin,
     postHandleRemoveSkin,
+    postSkillPage,
+    getUpdateSkill,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -77,5 +79,10 @@ router.post('/update-skin', upload.single("profile_pic"), postEditSkin);
 router.post('/delete-skin', postHandleRemoveSkin);
 
 router.post('/delete-skin/:skin_id', postDeleteSkin);
+
+//Kỹ năng
+router.post('/skill/:id', postSkillPage);
+
+router.get('/update-skill', getUpdateSkill);
 
 module.exports = router;

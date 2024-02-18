@@ -11,6 +11,7 @@ const {
     //getEditSkinById,
     deleteSkinById,
     getSkinUpdatebyId,
+    getSkillPage,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -28,6 +29,8 @@ const getHomePage = async (req, res) => {
 const postCreationChampions = async (req, res) => {
 
     let champion_name = req.body.champion_name;
+    let nickname = req.body.nickname;
+
 
     if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
@@ -37,7 +40,7 @@ const postCreationChampions = async (req, res) => {
 
     try {
         let [results, fields] = await connection.query(
-            `INSERT INTO CHAMPION(name, image) VALUES (?, ?)`, [champion_name, req.file.filename]
+            `INSERT INTO CHAMPION(name, nickname, image) VALUES (?, ?, ?)`, [champion_name, nickname, req.file.filename]
         );
         return res.redirect("/");
     } catch (error) {
@@ -94,6 +97,7 @@ const postUpdateChampion = async (req, res) => {
 
     let idChampion = req.body.idChampion;
     let champion_name = req.body.champion_name;
+    let nickname = req.body.nickname;
 
     if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
@@ -103,9 +107,9 @@ const postUpdateChampion = async (req, res) => {
     try {
         let [results, fields] = await connection.query(
             `UPDATE CHAMPION
-            SET name = ?, image = ?     
+            SET name = ?, nickname = ?, image = ?     
             WHERE champion_id = ?
-        `, [champion_name, req.file.filename, idChampion]
+        `, [champion_name, nickname, req.file.filename, idChampion]
         );
         res.redirect("/");
     } catch (error) {
@@ -182,6 +186,18 @@ const postHandleRemoveSkin = async (req, res) => {
     res.redirect('/');
 };
 
+const postSkillPage = async (req, res) => {
+    const idSkill = req.params.id;
+
+    let skill = await getSkillPage(idSkill);
+
+    res.render('skill.ejs', { listSkill: skill });
+}
+
+const getUpdateSkill = (req, res) => {
+    res.send('Hello!!!')
+}
+
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -198,4 +214,6 @@ module.exports = {
     postEditSkin,
     postDeleteSkin,
     postHandleRemoveSkin,
+    postSkillPage,
+    getUpdateSkill,
 }

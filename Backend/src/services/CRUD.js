@@ -68,6 +68,12 @@ const deleteSkinById = async (id) => {
     );
 };
 
+const getSkillPage = async (idSkill) => {
+    let [results, fields] = await connection.query('SELECT * FROM SKILL WHERE id_skill = ?', [idSkill],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
 module.exports = {
     getAllChampions,
     getChampionbyId,
@@ -75,4 +81,5 @@ module.exports = {
     getSkinById,
     deleteSkinById,
     getSkinUpdatebyId,
+    getSkillPage,
 }
