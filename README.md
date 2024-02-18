@@ -15,3 +15,4 @@
 - Ngày 18/02/2024:
   + Sửa, xóa Champion.
   + Sửa Skin.
+  + Xóa Skin (lỗi)
