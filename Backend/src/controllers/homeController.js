@@ -12,6 +12,7 @@ const {
     deleteSkinById,
     getSkinUpdatebyId,
     getSkillPage,
+    getSkillById,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -194,8 +195,41 @@ const postSkillPage = async (req, res) => {
     res.render('skill.ejs', { listSkill: skill });
 }
 
-const getUpdateSkill = (req, res) => {
-    res.send('Hello!!!')
+const getUpdateSkill = async (req, res) => {
+    const idSkill = req.params.id_skill;
+
+    let skill = await getSkillById(idSkill);
+
+    res.render('edit-skill.ejs', { editSkill: skill });
+}
+
+const postUpdateSkillPage = async (req, res) => {
+    let skillId = req.body.skillId;
+    let noitai = req.body.noitai;
+    let q = req.body.q_skill;
+    let w = req.body.w_skill;
+    let e = req.body.e_skill;
+    let r = req.body.r_skill;
+    let championId = req.body.championId;
+    // try {
+    //     let [results, fields] = await connection.query(
+    //         `UPDATE SKILL
+    //         SET noitai = ?, q = ?, w = ? , e = ?, r = ?, champion_id = ?
+    //         WHERE id_skill = ?
+    //     `, [noitai, q, w, e, r, championId, skillId]
+    //     );
+    //     res.redirect("/");
+    // } catch (error) {
+    //     return res.status(500).json({ error: error.message });
+    // }
+
+    let [results, fields] = await connection.query(
+        `UPDATE SKILL
+            SET noitai = ?, q = ?, w = ? , e = ?, r = ?, champion_id = ?
+            WHERE id_skill = ?
+        `, [noitai, q, w, e, r, championId, skillId]
+    );
+    res.redirect("/");
 }
 
 module.exports = {
@@ -216,4 +250,6 @@ module.exports = {
     postHandleRemoveSkin,
     postSkillPage,
     getUpdateSkill,
+    postUpdateSkillPage,
+
 }

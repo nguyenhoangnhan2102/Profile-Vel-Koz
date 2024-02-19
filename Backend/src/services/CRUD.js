@@ -43,6 +43,9 @@ const deleteChampionById = async (id) => {
             `DELETE FROM SKIN WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
         );
         await connection.query(
+            `DELETE FROM SKILL WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
+        );
+        await connection.query(
             `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
         );
     }
@@ -74,6 +77,16 @@ const getSkillPage = async (idSkill) => {
     return results;
 };
 
+const getSkillById = async (idSkill) => {
+    let [results, fields] = await connection.query(
+        "SELECT * FROM SKILL WHERE id_skill = ?", [idSkill],
+    );
+
+    let skill = results && results.length > 0 ? results[0] : {};
+
+    return skill;
+};
+
 module.exports = {
     getAllChampions,
     getChampionbyId,
@@ -82,4 +95,5 @@ module.exports = {
     deleteSkinById,
     getSkinUpdatebyId,
     getSkillPage,
+    getSkillById
 }
