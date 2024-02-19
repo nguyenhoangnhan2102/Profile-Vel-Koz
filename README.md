@@ -18,3 +18,5 @@
   + Xóa Skin (lỗi)
   + Thêm bảng CSDL (SKILL)
   + Hiển thị thành công table SKILL
+- Ngày 19/02/2024:
+  + Sửa Skill.
