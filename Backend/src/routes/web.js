@@ -21,6 +21,8 @@ const { getHomePage,
     postSkillPage,
     getUpdateSkill,
     postUpdateSkillPage,
+    getCreateSkillPage,
+    postCreateSkill,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -87,5 +89,10 @@ router.post('/skill/:id', postSkillPage);
 router.get('/update-skill/:id_skill', getUpdateSkill);
 
 router.post('/update-skill', postUpdateSkillPage);
+
+router.get('/create-skill-page', getCreateSkillPage);
+
+router.post('/create-skill', postCreateSkill);
+
 
 module.exports = router;

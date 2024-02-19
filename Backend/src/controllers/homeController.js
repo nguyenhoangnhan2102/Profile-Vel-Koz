@@ -232,6 +232,29 @@ const postUpdateSkillPage = async (req, res) => {
     res.redirect("/");
 }
 
+const getCreateSkillPage = (req, res) => {
+    res.render("create-skill.ejs");
+}
+
+const postCreateSkill = async (req, res) => {
+    let noitai = req.body.noitai;
+    let q = req.body.q;
+    let w = req.body.w;
+    let e = req.body.e;
+    let r = req.body.r;
+    let id_champion = req.body.id_champion;
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO SKILL (noitai, q, w, e, r, champion_id) VALUES (?, ?, ?, ?, ?, ?)`, [noitai, q, w, e, r, id_champion]
+        );
+
+        return res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -251,5 +274,6 @@ module.exports = {
     postSkillPage,
     getUpdateSkill,
     postUpdateSkillPage,
-
+    getCreateSkillPage,
+    postCreateSkill,
 }
