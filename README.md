@@ -16,3 +16,5 @@
   + Sửa, xóa Champion.
   + Sửa Skin.
   + Xóa Skin (lỗi)
+  + Thêm bảng CSDL (SKILL)
+  + Hiển thị thành công table SKILL
