@@ -1,0 +1,42 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/create">Create Champions</a>
+    </div>
+    <div class="table-container">
+        <div class="title">List Champions</div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name Skill</th>
+                <th>Image</th>
+                <th>Action</th>
+            </tr>
+            <% listSkillQ.forEach(function(q_skill) { %>
+                <tr>
+                    <td>
+                        <%= q_skill.id_passive %>
+                    </td>
+                    <td>
+                        <%= q_skill.ten_skill %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=q_skill.motaskill%>" alt="" width="200px" height="200px">
+                    </td>
+                </tr>
+                <% }); %>
+        </table>
+    </div>
+
+</body>
+
+</html>

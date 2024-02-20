@@ -13,6 +13,7 @@ const {
     getSkinUpdatebyId,
     getSkillPage,
     getSkillById,
+    getSkillPassive,
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -255,6 +256,14 @@ const postCreateSkill = async (req, res) => {
     }
 }
 
+const postSkillPassive = async (req, res) => {
+    const id_passive = req.params.id;
+
+    let q_skill = await getSkillPassive(id_passive);
+
+    res.render('passive.ejs', { listSkillQ: q_skill });
+}
+
 module.exports = {
     getHomePage,
     postCreationChampions,
@@ -276,4 +285,5 @@ module.exports = {
     postUpdateSkillPage,
     getCreateSkillPage,
     postCreateSkill,
+    postSkillPassive
 }

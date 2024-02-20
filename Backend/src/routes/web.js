@@ -23,6 +23,7 @@ const { getHomePage,
     postUpdateSkillPage,
     getCreateSkillPage,
     postCreateSkill,
+    postSkillPassive
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -84,7 +85,7 @@ router.post('/delete-skin', postHandleRemoveSkin);
 router.post('/delete-skin/:skin_id', postDeleteSkin);
 
 //Kỹ năng
-router.post('/skill/:id', postSkillPage);
+router.post('/skill-page/:id', postSkillPage);
 
 router.get('/update-skill/:id_skill', getUpdateSkill);
 
@@ -93,6 +94,8 @@ router.post('/update-skill', postUpdateSkillPage);
 router.get('/create-skill-page', getCreateSkillPage);
 
 router.post('/create-skill', postCreateSkill);
+
+router.post('/skill-passive/:id', postSkillPassive);
 
 
 module.exports = router;

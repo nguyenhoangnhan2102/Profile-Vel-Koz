@@ -72,7 +72,7 @@ const deleteSkinById = async (id) => {
 };
 
 const getSkillPage = async (idSkill) => {
-    let [results, fields] = await connection.query('SELECT * FROM SKILL WHERE id_skill = ?', [idSkill],);
+    let [results, fields] = await connection.query('SELECT * FROM PASSIVE WHERE id_passive = ?', [idSkill],);
     // let skin = results && results.length > 0 ? results[0] : {};
     return results;
 };
@@ -87,6 +87,12 @@ const getSkillById = async (idSkill) => {
     return skill;
 };
 
+const getSkillPassive = async (id_passive) => {
+    let [results, fields] = await connection.query('SELECT * FROM PASSIVE WHERE id_passive = ?', [id_passive],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
 module.exports = {
     getAllChampions,
     getChampionbyId,
@@ -95,5 +101,6 @@ module.exports = {
     deleteSkinById,
     getSkinUpdatebyId,
     getSkillPage,
-    getSkillById
+    getSkillById,
+    getSkillPassive
 }

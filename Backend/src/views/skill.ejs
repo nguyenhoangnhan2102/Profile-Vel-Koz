@@ -17,8 +17,7 @@
         <table>
             <tr>
                 <th>ID Skill</th>
-                <th>ID Skin</th>
-                <th>Nội tại</th>
+                <th>Passive</th>
                 <th>Q</th>
                 <th>W</th>
                 <th>E</th>
@@ -31,28 +30,17 @@
                         <%= skill.id_skill %>
                     </td>
                     <td>
-                        <%= skill.champion_id %>
+                        <%= skill.id_passive %>
+                    </td>
+                    <!-- <td>
+                        <a href="/skill-detail/<%= skill.id_skill %>">Xem</a>
+                    </td> -->
+
+                    <td>
+                        <%= skill.ten_skill %>
                     </td>
                     <td>
-                        <%= skill.noitai %>
-                    </td>
-                    <td>
-                        <%= skill.q %>
-                    </td>
-                    <td>
-                        <%= skill.w %>
-                    </td>
-                    <td>
-                        <%= skill.e %>
-                    </td>
-                    <td>
-                        <%= skill.r %>
-                    </td>
-                    <td>
-                        <a href="/update-skill/<%= skill.id_skill %>">Edit</a>
-                        <form action="/delete-skill/<%= skill.id_skill %>" method="post">
-                            <button>Delete</button>
-                        </form>
+                        <img src="/img/<%=skill.motaskill%>" alt="" width="200px" height="200px">
                     </td>
                 </tr>
                 <% }); %>
