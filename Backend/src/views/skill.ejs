@@ -16,31 +16,72 @@
         <div class="title">List Skin</div>
         <table>
             <tr>
-                <th>ID Skill</th>
+                <th>ID Champion</th>
                 <th>Passive</th>
+                <th>Detail</th>
+                <th>Image</th>
                 <th>Q</th>
+                <th>Detail</th>
+                <th>Image</th>
                 <th>W</th>
+                <th>Detail</th>
+                <th>Image</th>
                 <th>E</th>
+                <th>Detail</th>
+                <th>Image</th>
                 <th>R</th>
-                <th>Action</th>
+                <th>Detail</th>
+                <th>Image</th>
             </tr>
             <% listSkill.forEach(function(skill) { %>
                 <tr>
                     <td>
-                        <%= skill.id_skill %>
+                        <%= skill.champion_id %>
                     </td>
                     <td>
-                        <%= skill.id_passive %>
-                    </td>
-                    <!-- <td>
-                        <a href="/skill-detail/<%= skill.id_skill %>">Xem</a>
-                    </td> -->
-
-                    <td>
-                        <%= skill.ten_skill %>
+                        <%= skill.passive %>
                     </td>
                     <td>
-                        <img src="/img/<%=skill.motaskill%>" alt="" width="200px" height="200px">
+                        <%= skill.motaskill_passive %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=skill.hinhanhskill_passive%>" alt="" width="100px" height="100px">
+                    </td>
+                    <td>
+                        <%= skill.q %>
+                    </td>
+                    <td>
+                        <%= skill.motaskill_q %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=skill.hinhanhskill_q%>" alt="" width="100px" height="100px">
+                    </td>
+                    <td>
+                        <%= skill.w %>
+                    </td>
+                    <td>
+                        <%= skill.motaskill_w %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=skill.hinhanhskill_w%>" alt="" width="100px" height="100px">
+                    </td>
+                    <td>
+                        <%= skill.e %>
+                    </td>
+                    <td>
+                        <%= skill.motaskill_e %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=skill.hinhanhskill_e%>" alt="" width="100px" height="100px">
+                    </td>
+                    <td>
+                        <%= skill.r %>
+                    </td>
+                    <td>
+                        <%= skill.motaskill_r %>
+                    </td>
+                    <td>
+                        <img src="/img/<%=skill.hinhanhskill_r%>" alt="" width="100px" height="100px">
                     </td>
                 </tr>
                 <% }); %>

@@ -178,10 +178,10 @@ const postDeleteSkin = async (req, res) => {
     let skin = await getSkinUpdatebyId(skinId);
 
     res.render('delete-skin.ejs', { skinEdit: skin });
-}
+};
 
 const postHandleRemoveSkin = async (req, res) => {
-    const id = req.body.skin_id;
+    const id = req.body.skin_Id;
 
     await deleteSkinById(id);
 
