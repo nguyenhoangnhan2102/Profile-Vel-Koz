@@ -21,3 +21,5 @@
 - Ngày 19/02/2024:
   + Sửa Skill.
   + Thêm Skill.
+- Ngày 20/02/2024:
+  + Sửa bảng SKILL.
