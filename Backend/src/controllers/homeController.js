@@ -238,16 +238,30 @@ const getCreateSkillPage = (req, res) => {
 }
 
 const postCreateSkill = async (req, res) => {
-    let noitai = req.body.noitai;
+    let passive = req.body.passive;
+    let detail_passive = req.body.detail_passive;
     let q = req.body.q;
+    let detail_q = req.body.detail_q;
     let w = req.body.w;
+    let detail_w = req.body.detail_w;
     let e = req.body.e;
+    let detail_e = req.body.detail_e;
     let r = req.body.r;
+    let detail_r = req.body.detail_r;
     let id_champion = req.body.id_champion;
 
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
     try {
         let [results, fields] = await connection.query(
-            `INSERT INTO SKILL (noitai, q, w, e, r, champion_id) VALUES (?, ?, ?, ?, ?, ?)`, [noitai, q, w, e, r, id_champion]
+            `INSERT INTO SKILL (passive, motaskill_passive, hinhanhskill_passive, q, motaskill_q, hinhanhskill_q, w, motaskill_w, hinhanhskill_w,
+                e, motaskill_e, hinhanhskill_e, r, motaskill_r, hinhanhskill_r, champion_id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [passive, detail_passive, req.file.filename, q, detail_q, req.file.filename, w, detail_w, req.file.filename,
+                e, detail_e, req.file.filename, r, detail_r, req.file.filename, id_champion]
         );
 
         return res.redirect("/");
