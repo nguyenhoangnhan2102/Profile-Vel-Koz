@@ -15,9 +15,44 @@ const getChampionbyId = async (idChampion) => {
 
     return champion;
 };
-
+const getListSkin = async () => {
+    let [results, fields] = await connection.query(`Select * from SKIN`);
+    return results;
+}
 const getSkinById = async (idChampion) => {
-    let [results, fields] = await connection.query('SELECT * FROM SKIN WHERE champion_id = ?', [idChampion],);
+    let [results, fields] = await connection.query('SELECT * FROM SKIN WHERE champion_id = ?', [idChampion]);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
+
+const getSkillPassiveById = async (idSkillPassive) => {
+    let [results, fields] = await connection.query('SELECT * FROM PASSIVE WHERE id_passive = ?', [idSkillPassive],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
+const getSkillQById = async (idSkillQ) => {
+    let [results, fields] = await connection.query('SELECT * FROM Q WHERE id_q = ?', [idSkillQ],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
+const getSkillWById = async (idSkillW) => {
+    let [results, fields] = await connection.query('SELECT * FROM W WHERE id_w = ?', [idSkillW],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
+const getSkillEById = async (idSkillE) => {
+    let [results, fields] = await connection.query('SELECT * FROM E WHERE id_e = ?', [idSkillE],);
+    // let skin = results && results.length > 0 ? results[0] : {};
+    return results;
+};
+
+
+const getSkillRById = async (idSkillR) => {
+    let [results, fields] = await connection.query('SELECT * FROM R WHERE id_r = ?', [idSkillR],);
     // let skin = results && results.length > 0 ? results[0] : {};
     return results;
 };
@@ -87,11 +122,8 @@ const getSkillById = async (idSkill) => {
     return skill;
 };
 
-const getSkillPassive = async (id_passive) => {
-    let [results, fields] = await connection.query('SELECT * FROM PASSIVE WHERE id_passive = ?', [id_passive],);
-    // let skin = results && results.length > 0 ? results[0] : {};
-    return results;
-};
+
+
 
 module.exports = {
     getAllChampions,
@@ -102,5 +134,10 @@ module.exports = {
     getSkinUpdatebyId,
     getSkillPage,
     getSkillById,
-    getSkillPassive
+    getSkillPassiveById,
+    getSkillQById,
+    getSkillWById,
+    getSkillEById,
+    getSkillRById,
+    getListSkin
 }

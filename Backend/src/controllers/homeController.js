@@ -13,7 +13,12 @@ const {
     getSkinUpdatebyId,
     getSkillPage,
     getSkillById,
-    getSkillPassive,
+    getSkillPassiveById,
+    getSkillQById,
+    getSkillWById,
+    getSkillEById,
+    getSkillRById,
+    getListSkin
 } = require('../services/CRUD');
 
 const getHomePage = async (req, res) => {
@@ -51,7 +56,6 @@ const postCreationChampions = async (req, res) => {
 };
 
 const postCreateSkin = async (req, res) => {
-
     let skin_name = req.body.skin_name;
     let id_champion = req.body.id_champion;
 
@@ -65,8 +69,8 @@ const postCreateSkin = async (req, res) => {
         let [results, fields] = await connection.query(
             `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
         );
-
-        return res.redirect("/");
+        let listSkin = await getSkinById(id_champion);
+        return res.render("skin.ejs", { listSkin });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -84,7 +88,7 @@ const postSkinPage = async (req, res) => {
     let skin = await getSkinById(idChampion);
 
     res.render('skin.ejs', { listSkin: skin });
-}
+};
 
 const getUpdatePage = async (req, res) => {
 
@@ -173,11 +177,15 @@ const postEditSkin = async (req, res) => {
 };
 
 const postDeleteSkin = async (req, res) => {
-    const skinId = req.params.skin_id;
+    const id = req.params.skin_id;
+    console.log(id);
+    // let skin = await getSkinUpdatebyId(skinId);
+    await connection.query(
+        ` DELETE FROM SKIN WHERE skin_id = ? `, [id]
+    );
+    const listSkin = await getSkinById()
+    res.render('skin.ejs', { listSkin })
 
-    let skin = await getSkinUpdatebyId(skinId);
-
-    res.render('delete-skin.ejs', { skinEdit: skin });
 };
 
 const postHandleRemoveSkin = async (req, res) => {
@@ -270,13 +278,42 @@ const postCreateSkill = async (req, res) => {
     }
 }
 
-const postSkillPassive = async (req, res) => {
-    const id_passive = req.params.id;
+const postSkillPassivePage = async (req, res) => {
+    const idSkillPassive = req.params.id;
 
-    let q_skill = await getSkillPassive(id_passive);
+    let skill_passive = await getSkillPassiveById(idSkillPassive);
 
-    res.render('passive.ejs', { listSkillQ: q_skill });
-}
+    res.render('passive.ejs', { listSkillPassive: skill_passive });
+};
+
+const postSkillQPage = async (req, res) => {
+    const idSkillQ = req.params.id;
+
+    let skill_q = await getSkillQById(idSkillQ);
+
+    res.render('q.ejs', { listSkillQ: skill_q });
+};
+const postSkillWPage = async (req, res) => {
+    const idSkillW = req.params.id;
+
+    let skill_w = await getSkillWById(idSkillW);
+
+    res.render('w.ejs', { listSkillW: skill_w });
+};
+const postSkillEPage = async (req, res) => {
+    const idSkillE = req.params.id;
+
+    let skill_e = await getSkillEById(idSkillE);
+
+    res.render('e.ejs', { listSkillE: skill_e });
+};
+const postSkillRPage = async (req, res) => {
+    const idSkillR = req.params.id;
+
+    let skill_r = await getSkillRById(idSkillR);
+
+    res.render('r.ejs', { listSkillR: skill_r });
+};
 
 module.exports = {
     getHomePage,
@@ -284,7 +321,6 @@ module.exports = {
     getCreatePage,
     getUpdatePage,
     postUpdateChampion,
-    //updateChampionbyId,
     postDeleteChampion,
     postHandleRemoveChampion,
     postSkinPage,
@@ -299,5 +335,9 @@ module.exports = {
     postUpdateSkillPage,
     getCreateSkillPage,
     postCreateSkill,
-    postSkillPassive
+    postSkillPassivePage,
+    postSkillQPage,
+    postSkillEPage,
+    postSkillWPage,
+    postSkillRPage,
 }

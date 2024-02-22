@@ -1,0 +1,49 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/create">Create Champions</a>
+    </div>
+    <div class="table-container">
+        <div class="title">List Champions</div>
+        <table>
+            <tr>
+                <th>ID Skill</th>
+                <th>ID Passive</th>
+                <th>Name Skill</th>
+                <th>Detail Skill</th>
+                <th>Image</th>
+            </tr>
+            <% listSkillR.forEach(function(skill_r) { %>
+                <tr>
+                    <td>
+                        <%= skill_r.id_r %>
+                    </td>
+                    <td>
+                        <%= skill_r.id_skill %>
+                    </td>
+                    <td>
+                        <%= skill_r.ten_skill_r %>
+                    </td>
+                    <td>
+                        <%= skill_r.motaskill_r %>
+                    </td>
+                    <td>
+                        <img src="/img/<%= skill_r.hinhanh_r %>" alt="" width="200px" height="200px">
+                    </td>
+                </tr>
+                <% }); %>
+        </table>
+    </div>
+
+</body>
+
+</html>
