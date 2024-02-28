@@ -43,7 +43,32 @@
                 <% }); %>
         </table>
     </div>
-
+    <div class="form-add-new">
+        <form action="/create-skill-passive" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Add Skill</legend>
+                <div class="input-group">
+                    <label>ID Skill:</label>
+                    <input type="text" name="id_skill">
+                </div>
+                <div class="input-group">
+                    <label>Skill Name:</label>
+                    <input type="text" name="skill_name">
+                </div>
+                <div class="input-group">
+                    <label>Detail Skill:</label>
+                    <input type="text" name="detail_skill">
+                </div>
+                <div class="input-group">
+                    <input type="file" name="profile_pic">
+                </div>
+                <div>
+                    <button>Confirm</button>
+                </div>
+            </fieldset>
+        </form>
+        <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data"></form>
+    </div>
 </body>
 
 </html>

@@ -1,43 +1,36 @@
 
 const connection = require('../config/dataBase');
-// const { param } = require('../routes/web');
-const multer = require('multer');
+
 const {
-    getAllChampions,
-    getChampionbyId,
-    //updateChampionbyId,
-    deleteChampionById,
-    getSkinById,
-    //getEditSkinById,
-    deleteSkinById,
-    getSkinUpdatebyId,
-    getSkillPage,
-    getSkillById,
-    getSkillPassiveById,
-    getSkillQById,
-    getSkillWById,
-    getSkillEById,
-    getSkillRById,
-    getListSkin
+    //TƯỚNG
+    getAllChampions, getChampionbyId, deleteChampionById,
+
+    //TRANG PHỤC
+    getSkinById, deleteSkinById, getSkinUpdatebyId,
+
+    //KỸ NĂNG
+    getSkillPage, getSkillPassiveById, getSkillQById,
+    getSkillWById, getSkillEById, getSkillRById,
 } = require('../services/CRUD');
 
+// CHAMPION------------------CHAMPION---------------------------CHAMPION----------------------CHAMPION--------------------------CHAMPION
+
+//HOME PAGE
 const getHomePage = async (req, res) => {
     let results = await getAllChampions();
     return res.render('home.ejs', { ListChampions: results });
 };
 
-// const getSkinPage = async (req, res) => {
+//Trang Create TƯỚNG
+const getCreatePage = (req, res) => {
+    res.render('create.ejs');
+};
 
-//     let results = await getSkinById();
-
-//     return res.render('skin.ejs', { listSkin: results });
-// };
-
+//Function Create TƯỚNG
 const postCreationChampions = async (req, res) => {
 
     let champion_name = req.body.champion_name;
     let nickname = req.body.nickname;
-
 
     if (req.fileValidationError) {
         return res.status(400).json({ error: req.fileValidationError });
@@ -55,40 +48,7 @@ const postCreationChampions = async (req, res) => {
     }
 };
 
-const postCreateSkin = async (req, res) => {
-    let skin_name = req.body.skin_name;
-    let id_champion = req.body.id_champion;
-
-    if (req.fileValidationError) {
-        return res.status(400).json({ error: req.fileValidationError });
-    } else if (!req.file) {
-        return res.status(400).json({ error: "Please select an image to upload" });
-    }
-
-    try {
-        let [results, fields] = await connection.query(
-            `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
-        );
-        return res.redirect("/")
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-}
-
-const getCreatePage = (req, res) => {
-    res.render('create.ejs');
-}
-
-const postSkinPage = async (req, res) => {
-    const idChampion = req.params.id;
-
-    console.log(idChampion);
-
-    let skin = await getSkinById(idChampion);
-    console.log("check list skin:", skin)
-    res.render('skin.ejs', { listSkin: skin });
-};
-
+//Trang Update TƯỚNG
 const getUpdatePage = async (req, res) => {
 
     const idChampion = req.params.champion_id;
@@ -98,6 +58,7 @@ const getUpdatePage = async (req, res) => {
     res.render('edit.ejs', { championEdit: champion });
 };
 
+//Function Update TƯỚNG
 const postUpdateChampion = async (req, res) => {
 
     let idChampion = req.body.idChampion;
@@ -122,14 +83,16 @@ const postUpdateChampion = async (req, res) => {
     }
 };
 
+//Trang Delete TƯỚNG
 const postDeleteChampion = async (req, res) => {
     const idChampion = req.params.champion_id;
 
     let champion = await getChampionbyId(idChampion);
 
     res.render("delete.ejs", { championEdit: champion });
-}
+};
 
+//Function Delelte TƯỚNG
 const postHandleRemoveChampion = async (req, res) => {
     const id = req.body.idChampion;
 
@@ -138,11 +101,45 @@ const postHandleRemoveChampion = async (req, res) => {
     res.redirect('/');
 };
 
+// SKIN-------------------------------------------------------------------------------------------------------SKIN
+
+//HOMEPAGE SKIN
+const postSkinPage = async (req, res) => {
+    const idChampion = req.params.id;
+
+    let skin = await getSkinById(idChampion);
+
+    res.render('skin.ejs', { listSkin: skin });
+};
+
+//Trang CREATE SKIN
 const getCreateSkinPage = (req, res) => {
     const id = req.params.id;
     res.render('create-skin.ejs', { id });
 };
 
+//Function CREATE SKIN
+const postCreateSkin = async (req, res) => {
+    let skin_name = req.body.skin_name;
+    let id_champion = req.body.id_champion;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
+        );
+        return res.redirect("/")
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang UPDATE SKIN
 const getUpdateSkinPage = async (req, res) => {
 
     const skinId = req.params.skin_id;
@@ -152,6 +149,7 @@ const getUpdateSkinPage = async (req, res) => {
     res.render('edit-skin.ejs', { skinEdit: skin });
 };
 
+//Function UPDATE SKIN
 const postEditSkin = async (req, res) => {
 
     let skin_id = req.body.skinId;
@@ -176,18 +174,18 @@ const postEditSkin = async (req, res) => {
     }
 };
 
+//Trang DELETE SKIN
 const postDeleteSkin = async (req, res) => {
     const id = req.params.skin_id;
-    console.log(id);
-    // let skin = await getSkinUpdatebyId(skinId);
+
     await connection.query(
         ` DELETE FROM SKIN WHERE skin_id = ? `, [id]
     );
 
     return res.redirect('/');
-
 };
 
+//Function DELETE SKIN
 const postHandleRemoveSkin = async (req, res) => {
     const id = req.body.skin_Id;
 
@@ -196,88 +194,18 @@ const postHandleRemoveSkin = async (req, res) => {
     res.redirect('/');
 };
 
+//SKILL------------------------------------------------------------------SKILL
+
+//HOMEPAGE SKILL
 const postSkillPage = async (req, res) => {
     const idSkill = req.params.id;
 
     let skill = await getSkillPage(idSkill);
 
     res.render('skill.ejs', { listSkill: skill });
-}
+};
 
-const getUpdateSkill = async (req, res) => {
-    const idSkill = req.params.id_skill;
-
-    let skill = await getSkillById(idSkill);
-
-    res.render('edit-skill.ejs', { editSkill: skill });
-}
-
-const postUpdateSkillPage = async (req, res) => {
-    let skillId = req.body.skillId;
-    let noitai = req.body.noitai;
-    let q = req.body.q_skill;
-    let w = req.body.w_skill;
-    let e = req.body.e_skill;
-    let r = req.body.r_skill;
-    let championId = req.body.championId;
-    // try {
-    //     let [results, fields] = await connection.query(
-    //         `UPDATE SKILL
-    //         SET noitai = ?, q = ?, w = ? , e = ?, r = ?, champion_id = ?
-    //         WHERE id_skill = ?
-    //     `, [noitai, q, w, e, r, championId, skillId]
-    //     );
-    //     res.redirect("/");
-    // } catch (error) {
-    //     return res.status(500).json({ error: error.message });
-    // }
-
-    let [results, fields] = await connection.query(
-        `UPDATE SKILL
-            SET noitai = ?, q = ?, w = ? , e = ?, r = ?, champion_id = ?
-            WHERE id_skill = ?
-        `, [noitai, q, w, e, r, championId, skillId]
-    );
-    res.redirect("/");
-}
-
-const getCreateSkillPage = (req, res) => {
-    res.render("create-skill.ejs");
-}
-
-const postCreateSkill = async (req, res) => {
-    let passive = req.body.passive;
-    let detail_passive = req.body.detail_passive;
-    let q = req.body.q;
-    let detail_q = req.body.detail_q;
-    let w = req.body.w;
-    let detail_w = req.body.detail_w;
-    let e = req.body.e;
-    let detail_e = req.body.detail_e;
-    let r = req.body.r;
-    let detail_r = req.body.detail_r;
-    let id_champion = req.body.id_champion;
-
-    if (req.fileValidationError) {
-        return res.status(400).json({ error: req.fileValidationError });
-    } else if (!req.file) {
-        return res.status(400).json({ error: "Please select an image to upload" });
-    }
-    try {
-        let [results, fields] = await connection.query(
-            `INSERT INTO SKILL (passive, motaskill_passive, hinhanhskill_passive, q, motaskill_q, hinhanhskill_q, w, motaskill_w, hinhanhskill_w,
-                e, motaskill_e, hinhanhskill_e, r, motaskill_r, hinhanhskill_r, champion_id) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [passive, detail_passive, req.file.filename, q, detail_q, req.file.filename, w, detail_w, req.file.filename,
-                e, detail_e, req.file.filename, r, detail_r, req.file.filename, id_champion]
-        );
-
-        return res.redirect("/");
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-}
-
+//Trang NỘI TẠI 
 const postSkillPassivePage = async (req, res) => {
     const idSkillPassive = req.params.id;
 
@@ -286,6 +214,30 @@ const postSkillPassivePage = async (req, res) => {
     res.render('passive.ejs', { listSkillPassive: skill_passive });
 };
 
+//Function CREATE PASSIVE
+const postCreateSkillPassive = async (req, res) => {
+    const id_skill = req.body.id_skill;
+    const skill_name = req.body.skill_name;
+    const detail_skill = req.body.detail_skill;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO PASSIVE (ten_skill_passive, motaskill_passive, hinhanh_passive, id_skill) VALUES (?, ?, ?, ?)`,
+            [skill_name, detail_skill, req.file.filename, id_skill]
+        );
+        return res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang Q
 const postSkillQPage = async (req, res) => {
     const idSkillQ = req.params.id;
 
@@ -293,6 +245,31 @@ const postSkillQPage = async (req, res) => {
 
     res.render('q.ejs', { listSkillQ: skill_q });
 };
+
+//Function CREATE Q
+const postCreateSkillQ = async (req, res) => {
+    const id_skill = req.body.id_skill;
+    const skill_name = req.body.skill_name;
+    const detail_skill = req.body.detail_skill;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO Q (ten_skill_q, motaskill_q, hinhanh_q, id_skill) VALUES (?, ?, ?, ?)`,
+            [skill_name, detail_skill, req.file.filename, id_skill]
+        );
+        return res.redirect("/")
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang W
 const postSkillWPage = async (req, res) => {
     const idSkillW = req.params.id;
 
@@ -300,6 +277,31 @@ const postSkillWPage = async (req, res) => {
 
     res.render('w.ejs', { listSkillW: skill_w });
 };
+
+//Function CREATE W
+const postCreateSkillW = async (req, res) => {
+    const id_skill = req.body.id_skill;
+    const skill_name = req.body.skill_name;
+    const detail_skill = req.body.detail_skill;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO W (ten_skill_w, motaskill_w, hinhanh_w, id_skill) VALUES (?, ?, ?, ?)`,
+            [skill_name, detail_skill, req.file.filename, id_skill]
+        );
+        return res.redirect("/")
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang E
 const postSkillEPage = async (req, res) => {
     const idSkillE = req.params.id;
 
@@ -307,6 +309,31 @@ const postSkillEPage = async (req, res) => {
 
     res.render('e.ejs', { listSkillE: skill_e });
 };
+
+//Function CREATE E
+const postCreateSkillE = async (req, res) => {
+    const id_skill = req.body.id_skill;
+    const skill_name = req.body.skill_name;
+    const detail_skill = req.body.detail_skill;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO E (ten_skill_e, motaskill_e, hinhanh_e, id_skill) VALUES (?, ?, ?, ?)`,
+            [skill_name, detail_skill, req.file.filename, id_skill]
+        );
+        return res.redirect("/")
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang R
 const postSkillRPage = async (req, res) => {
     const idSkillR = req.params.id;
 
@@ -315,29 +342,43 @@ const postSkillRPage = async (req, res) => {
     res.render('r.ejs', { listSkillR: skill_r });
 };
 
+//Function CREATE R
+const postCreateSkillR = async (req, res) => {
+    const id_skill = req.body.id_skill;
+    const skill_name = req.body.skill_name;
+    const detail_skill = req.body.detail_skill;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+
+    try {
+        let [results, fields] = await connection.query(
+            `INSERT INTO R (ten_skill_r, motaskill_r, hinhanh_r, id_skill) VALUES (?, ?, ?, ?)`,
+            [skill_name, detail_skill, req.file.filename, id_skill]
+        );
+        return res.redirect("/")
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
-    getHomePage,
-    postCreationChampions,
-    getCreatePage,
-    getUpdatePage,
-    postUpdateChampion,
-    postDeleteChampion,
+    //CHAMPION
+    getHomePage, postCreationChampions, getCreatePage,
+    getUpdatePage, postUpdateChampion, postDeleteChampion,
     postHandleRemoveChampion,
-    postSkinPage,
-    postCreateSkin,
-    getCreateSkinPage,
-    getUpdateSkinPage,
-    postEditSkin,
-    postDeleteSkin,
+
+    //SKIN
+    postSkinPage, postCreateSkin, getCreateSkinPage,
+    getUpdateSkinPage, postEditSkin, postDeleteSkin,
     postHandleRemoveSkin,
-    postSkillPage,
-    getUpdateSkill,
-    postUpdateSkillPage,
-    getCreateSkillPage,
-    postCreateSkill,
-    postSkillPassivePage,
-    postSkillQPage,
-    postSkillEPage,
-    postSkillWPage,
-    postSkillRPage,
+
+    //SKILL
+    postSkillPage, postSkillPassivePage, postSkillQPage,
+    postSkillEPage, postSkillWPage, postSkillRPage,
+    postCreateSkillPassive, postCreateSkillQ, postCreateSkillW,
+    postCreateSkillE, postCreateSkillR
 }

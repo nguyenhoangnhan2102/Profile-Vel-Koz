@@ -4,30 +4,22 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const appRoot = require('app-root-path');
-const { getHomePage,
-    postCreationChampions,
-    getCreatePage,
-    getUpdatePage,
-    postUpdateChampion,
-    postDeleteChampion,
+const {
+    //CHAMPION
+    getHomePage, postCreationChampions, getCreatePage,
+    getUpdatePage, postUpdateChampion, postDeleteChampion,
     postHandleRemoveChampion,
-    postSkinPage,
-    getCreateSkinPage,
-    postCreateSkin,
-    getUpdateSkinPage,
-    postEditSkin,
-    postDeleteSkin,
+
+    //SKIN
+    postSkinPage, getCreateSkinPage, postCreateSkin,
+    getUpdateSkinPage, postEditSkin, postDeleteSkin,
     postHandleRemoveSkin,
-    postSkillPage,
-    getUpdateSkill,
-    postUpdateSkillPage,
-    getCreateSkillPage,
-    postCreateSkill,
-    postSkillPassivePage,
-    postSkillQPage,
-    postSkillWPage,
-    postSkillEPage,
-    postSkillRPage,
+
+    //SKILL
+    postSkillPage, postSkillPassivePage, postSkillQPage,
+    postSkillWPage, postSkillEPage, postSkillRPage,
+    postCreateSkillPassive, postCreateSkillQ, postCreateSkillW,
+    postCreateSkillE, postCreateSkillR,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -57,10 +49,9 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 //route.Method('/route', name_handle)
 
-//Trang home
+// Tướng
 router.get('/', getHomePage);
 
-// Tướng
 router.get('/create', getCreatePage);
 
 router.post('/create-champions', upload.single("profile_pic"), postCreationChampions);
@@ -91,18 +82,18 @@ router.post('/delete-skin/:skin_id', postDeleteSkin);
 //Kỹ năng
 router.post('/skill-page/:id', postSkillPage);
 
-router.get('/update-skill/:id_skill', getUpdateSkill);
-
-router.post('/update-skill', postUpdateSkillPage);
-
-router.get('/create-skill-page', getCreateSkillPage);
-
-router.post('/create-skill', postCreateSkill);
-
+//HOMEPAGE SKILL
 router.get('/skill-passive-page/:id', postSkillPassivePage);
 router.get('/skill-q-page/:id', postSkillQPage);
 router.get('/skill-w-page/:id', postSkillWPage);
 router.get('/skill-e-page/:id', postSkillEPage);
 router.get('/skill-r-page/:id', postSkillRPage);
+
+//CREATE SKILL
+router.post('/create-skill-passive', upload.single("profile_pic"), postCreateSkillPassive);
+router.post('/create-skill-q', upload.single("profile_pic"), postCreateSkillQ);
+router.post('/create-skill-w', upload.single("profile_pic"), postCreateSkillW);
+router.post('/create-skill-e', upload.single("profile_pic"), postCreateSkillE);
+router.post('/create-skill-r', upload.single("profile_pic"), postCreateSkillR);
 
 module.exports = router;
