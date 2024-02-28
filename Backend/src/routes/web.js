@@ -76,7 +76,7 @@ router.post('/delete-champion', postHandleRemoveChampion);
 // Trang phục
 router.post('/skin/:id', postSkinPage);
 
-router.get('/create-skin-page', getCreateSkinPage);
+router.get('/create-skin-page/:id', getCreateSkinPage);
 
 router.post('/create-skin', upload.single("profile_pic"), postCreateSkin);
 

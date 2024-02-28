@@ -69,8 +69,7 @@ const postCreateSkin = async (req, res) => {
         let [results, fields] = await connection.query(
             `INSERT INTO SKIN (tentrangphuc, champion_id, motatrangphuc) VALUES (?, ?, ?)`, [skin_name, id_champion, req.file.filename]
         );
-        let listSkin = await getSkinById(id_champion);
-        return res.render("skin.ejs", { listSkin });
+        return res.redirect("/")
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -86,7 +85,7 @@ const postSkinPage = async (req, res) => {
     console.log(idChampion);
 
     let skin = await getSkinById(idChampion);
-
+    console.log("check list skin:", skin)
     res.render('skin.ejs', { listSkin: skin });
 };
 
@@ -140,7 +139,8 @@ const postHandleRemoveChampion = async (req, res) => {
 };
 
 const getCreateSkinPage = (req, res) => {
-    res.render('create-skin.ejs');
+    const id = req.params.id;
+    res.render('create-skin.ejs', { id });
 };
 
 const getUpdateSkinPage = async (req, res) => {
@@ -183,8 +183,8 @@ const postDeleteSkin = async (req, res) => {
     await connection.query(
         ` DELETE FROM SKIN WHERE skin_id = ? `, [id]
     );
-    const listSkin = await getSkinById()
-    res.render('skin.ejs', { listSkin })
+
+    return res.redirect('/');
 
 };
 
