@@ -27,4 +27,4 @@
 - Ngày 22/02/2024: Xóa Skin.
 - Ngày 28/02/2024:
   + Tạo mới SKILL Passive, Q, W, E, R.
-  + Chỉnh sửa sơ đồ NVC
+  + Chỉnh sửa sơ đồ MVC
