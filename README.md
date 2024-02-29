@@ -25,3 +25,6 @@
 - Ngày 21/02/2024: Hiển thị bảng SKILL.
   + Thêm mới.
 - Ngày 22/02/2024: Xóa Skin.
+- Ngày 28/02/2024:
+  + Tạo mới SKILL Passive, Q, W, E, R.
+  + Chỉnh sửa sơ đồ MVC
