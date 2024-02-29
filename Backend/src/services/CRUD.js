@@ -21,23 +21,9 @@ const getChampionbyId = async (idChampion) => {
 };
 
 //Xóa TƯỚNG
-const deleteChampionById = async (id) => {
-    try {
-        await connection.query(
-            `DELETE FROM SKIN WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
-        );
-        await connection.query(
-            `DELETE FROM SKILL WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
-        );
-        await connection.query(
-            `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
-        );
-    }
-    catch (error) {
-        console.error(error);
-        res.status(500).send("Lỗi Nội Server");
-    };
-};
+// const deleteChampionById = async (res, id) => {
+
+// };
 
 //SKIN----------------------------------------------------------SKIN
 
@@ -114,9 +100,20 @@ const getSkillRById = async (idSkillR) => {
     return results;
 };
 
+//Lấy id_passive để UPDATE
+const getUpdatePassiveById = async (id_passive) => {
+    let [results, fields] = await connection.query(
+        "SELECT * FROM PASSIVE WHERE id_passive = ?", [id_passive],
+    );
+
+    let skill_passive = results && results.length > 0 ? results[0] : {};
+
+    return skill_passive;
+}
+
 module.exports = {
     //CHAMPION
-    getAllChampions, getChampionbyId, deleteChampionById,
+    getAllChampions, getChampionbyId, //deleteChampionById,
 
     //SKIN
     getSkinById, deleteSkinById, getSkinUpdatebyId,
@@ -124,5 +121,5 @@ module.exports = {
     //SKILL
     getSkillPage, getSkillById, getSkillPassiveById,
     getSkillQById, getSkillWById, getSkillEById,
-    getSkillRById,
+    getSkillRById, getUpdatePassiveById,
 };

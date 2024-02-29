@@ -19,7 +19,8 @@ const {
     postSkillPage, postSkillPassivePage, postSkillQPage,
     postSkillWPage, postSkillEPage, postSkillRPage,
     postCreateSkillPassive, postCreateSkillQ, postCreateSkillW,
-    postCreateSkillE, postCreateSkillR,
+    postCreateSkillE, postCreateSkillR, postEditPassivePage,
+    postUpdatePassive,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -49,7 +50,7 @@ const upload = multer({ storage: storage, fileFilter: imageFilter });
 
 //route.Method('/route', name_handle)
 
-// Tướng
+// CHAMPION------------------------------------------CHAMPION
 router.get('/', getHomePage);
 
 router.get('/create', getCreatePage);
@@ -60,11 +61,9 @@ router.get('/update/:champion_id', getUpdatePage);
 
 router.post('/update-champion', upload.single("profile_pic"), postUpdateChampion);
 
-router.post('/delete-champion/:champion_id', postDeleteChampion);
+router.post('/delete-champion/:id', postHandleRemoveChampion);
 
-router.post('/delete-champion', postHandleRemoveChampion);
-
-// Trang phục
+// SKIN-----------------------------------SKIN
 router.post('/skin/:id', postSkinPage);
 
 router.get('/create-skin-page/:id', getCreateSkinPage);
@@ -79,7 +78,7 @@ router.post('/delete-skin', postHandleRemoveSkin);
 
 router.post('/delete-skin/:skin_id', postDeleteSkin);
 
-//Kỹ năng
+// SKILL-------------------------------SKILL
 router.post('/skill-page/:id', postSkillPage);
 
 //HOMEPAGE SKILL
@@ -95,5 +94,10 @@ router.post('/create-skill-q', upload.single("profile_pic"), postCreateSkillQ);
 router.post('/create-skill-w', upload.single("profile_pic"), postCreateSkillW);
 router.post('/create-skill-e', upload.single("profile_pic"), postCreateSkillE);
 router.post('/create-skill-r', upload.single("profile_pic"), postCreateSkillR);
+
+//UPDATE SKILL
+router.post('/update-passive/:id', postEditPassivePage);
+router.post('/update-passive', upload.single("profile_pic"), postUpdatePassive);
+
 
 module.exports = router;

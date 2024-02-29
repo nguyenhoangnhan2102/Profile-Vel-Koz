@@ -11,6 +11,7 @@ const {
     //KỸ NĂNG
     getSkillPage, getSkillPassiveById, getSkillQById,
     getSkillWById, getSkillEById, getSkillRById,
+    getUpdatePassiveById,
 } = require('../services/CRUD');
 
 // CHAMPION------------------CHAMPION---------------------------CHAMPION----------------------CHAMPION--------------------------CHAMPION
@@ -83,25 +84,33 @@ const postUpdateChampion = async (req, res) => {
     }
 };
 
-//Trang Delete TƯỚNG
-const postDeleteChampion = async (req, res) => {
-    const idChampion = req.params.champion_id;
-
-    let champion = await getChampionbyId(idChampion);
-
-    res.render("delete.ejs", { championEdit: champion });
-};
-
 //Function Delelte TƯỚNG
 const postHandleRemoveChampion = async (req, res) => {
-    const id = req.body.idChampion;
+    const id = req.params.id;
 
-    await deleteChampionById(id)
+    try {
+        await connection.query(
+            `DELETE FROM SKIN WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
+        );
+        await connection.query(
+            `DELETE FROM SKILL WHERE champion_id IN (SELECT champion_id FROM CHAMPION WHERE champion_id = ?)`, [id]
+        );
+        await connection.query(
+            `DELETE FROM SKILL WHERE id_skill = ?`, [id]
+        );
+        await connection.query(
+            `DELETE FROM CHAMPION WHERE champion_id = ?`, [id]
+        );
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send("Lỗi Nội Server");
+    };
 
     res.redirect('/');
 };
 
-// SKIN-------------------------------------------------------------------------------------------------------SKIN
+// SKIN------------------------SKIN---------------------------------SKIN------------------------SKIN------------------------------SKIN
 
 //HOMEPAGE SKIN
 const postSkinPage = async (req, res) => {
@@ -194,7 +203,7 @@ const postHandleRemoveSkin = async (req, res) => {
     res.redirect('/');
 };
 
-//SKILL------------------------------------------------------------------SKILL
+//SKILL-------------------------SKILL------------------SKILL----------------------SKILL-------------------------SKILL
 
 //HOMEPAGE SKILL
 const postSkillPage = async (req, res) => {
@@ -211,7 +220,7 @@ const postSkillPassivePage = async (req, res) => {
 
     let skill_passive = await getSkillPassiveById(idSkillPassive);
 
-    res.render('passive.ejs', { listSkillPassive: skill_passive });
+    res.render('skill_passive.ejs', { listSkillPassive: skill_passive });
 };
 
 //Function CREATE PASSIVE
@@ -243,7 +252,7 @@ const postSkillQPage = async (req, res) => {
 
     let skill_q = await getSkillQById(idSkillQ);
 
-    res.render('q.ejs', { listSkillQ: skill_q });
+    res.render('skill_q.ejs', { listSkillQ: skill_q });
 };
 
 //Function CREATE Q
@@ -275,7 +284,7 @@ const postSkillWPage = async (req, res) => {
 
     let skill_w = await getSkillWById(idSkillW);
 
-    res.render('w.ejs', { listSkillW: skill_w });
+    res.render('skill_w.ejs', { listSkillW: skill_w });
 };
 
 //Function CREATE W
@@ -307,7 +316,7 @@ const postSkillEPage = async (req, res) => {
 
     let skill_e = await getSkillEById(idSkillE);
 
-    res.render('e.ejs', { listSkillE: skill_e });
+    res.render('skill_e.ejs', { listSkillE: skill_e });
 };
 
 //Function CREATE E
@@ -339,7 +348,7 @@ const postSkillRPage = async (req, res) => {
 
     let skill_r = await getSkillRById(idSkillR);
 
-    res.render('r.ejs', { listSkillR: skill_r });
+    res.render('skill_r.ejs', { listSkillR: skill_r });
 };
 
 //Function CREATE R
@@ -365,20 +374,71 @@ const postCreateSkillR = async (req, res) => {
     }
 };
 
+//Trang UPDATE PASSIVE
+const postEditPassivePage = async (req, res) => {
+    const id_passive = req.params.id;
+
+    let skill_passive = await getUpdatePassiveById(id_passive);
+
+    res.render('edit-passive.ejs', { editSkillPassive: skill_passive });
+};
+
+//Function UPDATE PASSIVE
+const postUpdatePassive = async (req, res) => {
+    let idPassive = req.body.idPassive;
+    let idSkill = req.body.idSkill;
+    let passive_name = req.body.passive_name;
+    let passive_detail = req.body.passive_detail;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+    try {
+        await connection.query(
+            `UPDATE PASSIVE
+            SET ten_skill_passive = ?, motaskill_passive = ?, hinhanh_passive = ?, id_skill = ? 
+            WHERE id_passive = ?
+        `, [passive_name, passive_detail, req.file.filename, idSkill, idPassive]
+        );
+        res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}
+
 module.exports = {
-    //CHAMPION
-    getHomePage, postCreationChampions, getCreatePage,
-    getUpdatePage, postUpdateChampion, postDeleteChampion,
+    //CHAMPION-----------CHAMPION-----------CHAMPION
+    //RENDER
+    getHomePage, getCreatePage, getUpdatePage,
+    //CREATE
+    postCreationChampions,
+    //UPDATE
+    postUpdateChampion,
+    //DELETE
     postHandleRemoveChampion,
 
-    //SKIN
-    postSkinPage, postCreateSkin, getCreateSkinPage,
-    getUpdateSkinPage, postEditSkin, postDeleteSkin,
+
+    //SKIN-----------SKIN----------------SKIN
+    //RENDER
+    postSkinPage, getUpdateSkinPage,
+    getCreateSkinPage, postDeleteSkin,
+    //CREATE
+    postCreateSkin,
+    //UPDATE
+    postEditSkin,
+    //DELETE
+
     postHandleRemoveSkin,
 
-    //SKILL
+    //SKILL-------------SKILL--------------SKILL
+    //RENDER
     postSkillPage, postSkillPassivePage, postSkillQPage,
     postSkillEPage, postSkillWPage, postSkillRPage,
+    //CREATE
     postCreateSkillPassive, postCreateSkillQ, postCreateSkillW,
-    postCreateSkillE, postCreateSkillR
+    postCreateSkillE, postCreateSkillR,
+    //UPDATE
+    postEditPassivePage, postUpdatePassive,
 }

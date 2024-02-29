@@ -21,6 +21,7 @@
                 <th>Name Skill</th>
                 <th>Detail Skill</th>
                 <th>Image</th>
+                <th>Action</th>
             </tr>
             <% listSkillPassive.forEach(function(skill_passive) { %>
                 <tr>
@@ -38,6 +39,11 @@
                     </td>
                     <td>
                         <img src="/img/<%= skill_passive.hinhanh_passive %>" alt="" width="200px" height="200px">
+                    </td>
+                    <td>
+                        <form action="/update-passive/<%= skill_passive.id_passive %>" method="post">
+                            <button>Edit</button>
+                        </form>
                     </td>
                 </tr>
                 <% }); %>
