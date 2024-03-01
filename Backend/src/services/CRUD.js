@@ -109,7 +109,18 @@ const getUpdatePassiveById = async (id_passive) => {
     let skill_passive = results && results.length > 0 ? results[0] : {};
 
     return skill_passive;
-}
+};
+
+//Lấy id_q để UPDATE
+const getUpdateQById = async (id_q) => {
+    let [results, fields] = await connection.query(
+        "SELECT * FROM Q WHERE id_q = ?", [id_q],
+    );
+
+    let skill_q = results && results.length > 0 ? results[0] : {};
+
+    return skill_q;
+};
 
 module.exports = {
     //CHAMPION
@@ -121,5 +132,6 @@ module.exports = {
     //SKILL
     getSkillPage, getSkillById, getSkillPassiveById,
     getSkillQById, getSkillWById, getSkillEById,
-    getSkillRById, getUpdatePassiveById,
+    getSkillRById, getUpdatePassiveById, getUpdateQById,
+
 };

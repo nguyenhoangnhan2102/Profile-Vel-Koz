@@ -20,7 +20,7 @@ const {
     postSkillWPage, postSkillEPage, postSkillRPage,
     postCreateSkillPassive, postCreateSkillQ, postCreateSkillW,
     postCreateSkillE, postCreateSkillR, postEditPassivePage,
-    postUpdatePassive,
+    postUpdatePassive, postEditQPage, postUpdateQ,
 } = require('../controllers/homeController');
 
 const storage = multer.diskStorage({
@@ -98,6 +98,9 @@ router.post('/create-skill-r', upload.single("profile_pic"), postCreateSkillR);
 //UPDATE SKILL
 router.post('/update-passive/:id', postEditPassivePage);
 router.post('/update-passive', upload.single("profile_pic"), postUpdatePassive);
+
+router.post('/update-q/:id', postEditQPage);
+router.post('/update-q', upload.single("profile_pic"), postUpdateQ);
 
 
 module.exports = router;
