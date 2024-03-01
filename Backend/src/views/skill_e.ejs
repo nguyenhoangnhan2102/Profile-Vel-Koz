@@ -21,6 +21,7 @@
                 <th>Name Skill</th>
                 <th>Detail Skill</th>
                 <th>Image</th>
+                <th>Action</th>
             </tr>
             <% listSkillE.forEach(function(skill_e) { %>
                 <tr>
@@ -38,6 +39,11 @@
                     </td>
                     <td>
                         <img src="/img/<%= skill_e.hinhanh_e %>" alt="" width="200px" height="200px">
+                    </td>
+                    <td>
+                        <form action="/update-e/<%= skill_e.id_e %>" method="post">
+                            <button>Edit</button>
+                        </form>
                     </td>
                 </tr>
                 <% }); %>

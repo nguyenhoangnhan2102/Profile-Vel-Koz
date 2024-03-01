@@ -12,6 +12,7 @@ const {
     getSkillPage, getSkillPassiveById, getSkillQById,
     getSkillWById, getSkillEById, getSkillRById,
     getUpdatePassiveById, getUpdateQById, getUpdateWById,
+    getUpdateEById,
 
 } = require('../services/CRUD');
 
@@ -475,7 +476,41 @@ const postUpdateW = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
-}
+};
+
+//Trang UPDATE E
+const postEditEPage = async (req, res) => {
+    const id_e = req.params.id;
+
+    let skill_e = await getUpdateEById(id_e);
+
+    res.render('edit-e.ejs', { editSkillE: skill_e });
+};
+
+//Function UPDATE E
+const postUpdateE = async (req, res) => {
+    let idE = req.body.idE;
+    let idSkill = req.body.idSkill;
+    let e_name = req.body.e_name;
+    let e_detail = req.body.e_detail;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+    try {
+        await connection.query(
+            `UPDATE E
+            SET ten_skill_e = ?, motaskill_e = ?, hinhanh_e = ?, id_skill = ? 
+            WHERE id_e = ?
+        `, [e_name, e_detail, req.file.filename, idSkill, idE]
+        );
+        res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
 
 module.exports = {
     //CHAMPION-----------CHAMPION-----------CHAMPION
@@ -511,5 +546,5 @@ module.exports = {
     //UPDATE
     postEditPassivePage, postUpdatePassive, postEditQPage,
     postUpdateQ, postEditWPage, postUpdateW,
-
+    postEditEPage, postUpdateE,
 }
