@@ -144,6 +144,17 @@ const getUpdateEById = async (id_e) => {
     return skill_e;
 };
 
+//Lấy id_R để UPDATE
+const getUpdateRById = async (id_r) => {
+    let [results, fields] = await connection.query(
+        "SELECT * FROM R WHERE id_r = ?", [id_r],
+    );
+
+    let skill_r = results && results.length > 0 ? results[0] : {};
+
+    return skill_r;
+};
+
 module.exports = {
     //CHAMPION
     getAllChampions, getChampionbyId, //deleteChampionById,
@@ -155,5 +166,5 @@ module.exports = {
     getSkillPage, getSkillById, getSkillPassiveById,
     getSkillQById, getSkillWById, getSkillEById,
     getSkillRById, getUpdatePassiveById, getUpdateQById,
-    getUpdateWById, getUpdateEById
+    getUpdateWById, getUpdateEById, getUpdateRById
 };
