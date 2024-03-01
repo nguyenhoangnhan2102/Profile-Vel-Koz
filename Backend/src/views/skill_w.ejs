@@ -39,6 +39,11 @@
                     <td>
                         <img src="/img/<%= skill_w.hinhanh_w %>" alt="" width="200px" height="200px">
                     </td>
+                    <td>
+                        <form action="/update-w/<%= skill_w.id_w %>" method="post">
+                            <button>Edit</button>
+                        </form>
+                    </td>
                 </tr>
                 <% }); %>
         </table>

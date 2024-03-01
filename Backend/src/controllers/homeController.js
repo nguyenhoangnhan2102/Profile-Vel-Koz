@@ -11,7 +11,8 @@ const {
     //KỸ NĂNG
     getSkillPage, getSkillPassiveById, getSkillQById,
     getSkillWById, getSkillEById, getSkillRById,
-    getUpdatePassiveById, getUpdateQById,
+    getUpdatePassiveById, getUpdateQById, getUpdateWById,
+
 } = require('../services/CRUD');
 
 // CHAMPION------------------CHAMPION---------------------------CHAMPION----------------------CHAMPION--------------------------CHAMPION
@@ -408,18 +409,16 @@ const postUpdatePassive = async (req, res) => {
     }
 }
 
-//Trang UPDATE PASSIVE
+//Trang UPDATE Q
 const postEditQPage = async (req, res) => {
     const id_q = req.params.id;
-
-    console.log(id_q);
 
     let skill_q = await getUpdateQById(id_q);
 
     res.render('edit-q.ejs', { editSkillQ: skill_q });
 };
 
-//Function UPDATE PASSIVE
+//Function UPDATE Q
 const postUpdateQ = async (req, res) => {
     let idQ = req.body.idQ;
     let idSkill = req.body.idSkill;
@@ -437,6 +436,40 @@ const postUpdateQ = async (req, res) => {
             SET ten_skill_q = ?, motaskill_q = ?, hinhanh_q = ?, id_skill = ? 
             WHERE id_q = ?
         `, [q_name, q_detail, req.file.filename, idSkill, idQ]
+        );
+        res.redirect("/");
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
+//Trang UPDATE W
+const postEditWPage = async (req, res) => {
+    const id_w = req.params.id;
+
+    let skill_w = await getUpdateWById(id_w);
+
+    res.render('edit-w.ejs', { editSkillW: skill_w });
+};
+
+//Function UPDATE W
+const postUpdateW = async (req, res) => {
+    let idW = req.body.idW;
+    let idSkill = req.body.idSkill;
+    let w_name = req.body.w_name;
+    let w_detail = req.body.w_detail;
+
+    if (req.fileValidationError) {
+        return res.status(400).json({ error: req.fileValidationError });
+    } else if (!req.file) {
+        return res.status(400).json({ error: "Please select an image to upload" });
+    }
+    try {
+        await connection.query(
+            `UPDATE W
+            SET ten_skill_w = ?, motaskill_w = ?, hinhanh_w = ?, id_skill = ? 
+            WHERE id_w = ?
+        `, [w_name, w_detail, req.file.filename, idSkill, idW]
         );
         res.redirect("/");
     } catch (error) {
@@ -477,5 +510,6 @@ module.exports = {
     postCreateSkillE, postCreateSkillR,
     //UPDATE
     postEditPassivePage, postUpdatePassive, postEditQPage,
-    postUpdateQ,
+    postUpdateQ, postEditWPage, postUpdateW,
+
 }
