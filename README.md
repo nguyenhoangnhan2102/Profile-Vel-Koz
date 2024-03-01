@@ -29,4 +29,4 @@
   + Tạo mới SKILL Passive, Q, W, E, R.
   + Chỉnh sửa sơ đồ MVC
 - Ngày 29/02/2024: UPDATE PASSIVE
-- Ngày 01/03/2024: UPDATE Q, W
+- Ngày 01/03/2024: UPDATE Q, W, E
